@@ -1,169 +1,249 @@
 <template>
-   <div id="app">
-    <div class="counter">
-      <h1>
-        50
-      </h1>
-    </div>
-    <section class="memory-game">
-      <div @click="flipCard($event)" v-bind:class="{'memory-card': true, 'disable-card': card.isFliped }"  
-        v-for="(card, index) in cardsDataFrontFace" 
-        v-bind:key="index"  
-        v-bind:data-framework="card.elementType"
-        v-bind:index="index">
-            <template v-if="card.isFliped">
-              <img class="front-face" 
-                v-bind:src="card.imageUrl" 
-                v-bind:alt="card.imageAlt" />
-            </template>
-            <template v-else>
-              <img class="back-face" 
-                v-bind:src="cardBackFace.imageUrl" 
-                v-bind:alt="cardBackFace.imageUrl" />
-            </template>
-      </div>
-    </section>
-  </div>
+<div class="container">
+
+  <form action="" method="post" @submit.prevent="handleFormSubmit">
+    
+    <fieldset>
+      <h1>Registration Form</h1>
+
+      <p class="field field-icon">
+        <label for="username"><span><i class="fas fa-user"></i></span></label>
+        <input 
+          type="text" 
+          name="username" 
+          id="username" 
+          class="error" 
+          placeholder="Mark Ulrich"
+          v-model="$v.formData.username.$model">
+      </p>
+      <!-- if error -->
+      <p class="error" v-if="$v.formData.username.$error"> Full name field is invalid!</p>
+      <!-- end if error -->
+      
+      <p class="field field-icon">
+        <label for="email"><span><i class="fas fa-envelope"></i></span></label>
+        <input 
+          type="text" 
+          name="email" 
+          id="email" 
+          placeholder="marg@gmial.com"
+          v-model="$v.formData.email.$model">
+      </p>
+      <p class="error" v-if="$v.formData.email.$error"> email is invalid!</p>
+      <p class="field field-icon">
+        <label for="tel"><span><i class="fas fa-phone"></i></span></label>
+        <select 
+          name="tel" 
+          id="tel" 
+          class="tel" 
+          v-model="formData.code">
+          <option v-for="(code, i) in phoneCodes" :key="i">{{code}}</option>
+        </select>
+        <input 
+          type="text" 
+          name="tel" 
+          id="tel" 
+          placeholder="888 888"
+          v-model="formData.tel">
+      </p>
+
+      <p class="field field-icon">
+        <label for="building"><span><i class="fas fa-building"></i></span></label>
+        <select 
+          name="building" 
+          id="building" 
+          class="building"
+          v-model="formData.building">
+          <option v-for="(building, i) in buildings" :key="i">{{building}}</option>
+        </select>
+      </p>
+      <p class="field field-icon">
+        <label for="password"><span><i class="fas fa-lock"></i></span></label>
+        <input 
+          type="password" 
+          name="password" 
+          id="password" 
+          placeholder="******"
+          v-model="$v.formData.password.$model">
+      </p>
+      <!-- if error -->
+      <p class="error" v-if="!$v.formData.password.minLength">Password should be bigger than 2 characters!</p>
+      <p class="error" v-if="!$v.formData.password.maxLength">Password should be smaller than 17 characters!</p>
+      <!-- end if error -->
+      
+      <p class="field field-icon">
+        <label for="re-password"><span><i class="fas fa-lock"></i></span></label>
+        <input 
+          type="re-password" 
+          name="re-password" 
+          id="re-password" 
+          placeholder="******"
+          v-model="$v.formData.confirmPassword.$model">
+      </p>
+      <p class="error" v-if="!$v.formData.confirmPassword.sameAsPassword">Password not match!</p>
+
+      <p>
+        <button>Create Account</button>
+      </p>
+      
+      <p class="text-center">
+        Have an account?
+        <a href="">Log In</a>
+      </p>
+      
+    </fieldset>
+  </form>
+</div>
 </template>
 
 <script>
 
+import {
+  required,
+  email,
+  helpers,
+  minLength,
+  maxLength,
+  sameAs 
+} from "vuelidate/lib/validators";
+
+const buildings = ["Designer", "Software Engineer", "Accountant", "Manager", "Other"];
+const phoneCodes = ["+359", "+222", "+358"];
+// "/^[a-z ,.'-]+$/i"
+// "^[A-Z][\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$"
+const alpha = helpers.regex('alpha', /\b[A-Z][a-z]* [A-Z][a-z]*( [A-Z])?\b/i);
 
 export default {
-  name: 'App',
-  data() {
-    return {
-      guessedCards: 0,
-      currentFlippedCards: [],
-      cardBackFace: { imageUrl: "img/js-badge.svg", imageAlt: "Js-badge", isFliped: false },
-      cardsDataFrontFace: [ { index: 0, elementType: "react", imageUrl: "img/react.svg", imageAlt: "React", isFliped: false },
-                  { index: 1, elementType: "backbone", imageUrl: "img/backbone.svg", imageAlt: "Backbone", isFliped: false},
-                  { index: 2, elementType: "ember", imageUrl: "img/ember.svg", imageAlt: "Ember", isFliped: false},
-                  { index: 3, elementType: "angular", imageUrl: "img/angular.svg", imageAlt: "Angular", isFliped: false},
-                  { index: 4, elementType: "vue", imageUrl: "img/vue.svg", imageAlt: "Vue", isFliped: false},
-                  { index: 5, elementType: "aurelia", imageUrl: "img/aurelia.svg", imageAlt: "Aurelia", isFliped: false},
-                  { index: 6, elementType: "react", imageUrl: "img/react.svg", imageAlt: "React", isFliped: false },
-                  { index: 7, elementType: "backbone", imageUrl: "img/backbone.svg", imageAlt: "Backbone", isFliped: false},
-                  { index: 8, elementType: "ember", imageUrl: "img/ember.svg", imageAlt: "Ember", isFliped: false},
-                  { index: 9, elementType: "angular", imageUrl: "img/angular.svg", imageAlt: "Angular", isFliped: false},
-                  { index: 10,elementType: "vue", imageUrl: "img/vue.svg", imageAlt: "Vue", isFliped: false},
-                  { index: 11,elementType: "aurelia", imageUrl: "img/aurelia.svg", imageAlt: "Aurelia", isFliped: false} ]
-    }
-  },
-  watch: {
-    guessedCards: function(newValue, oldValue) {
-      console.log(newValue);
-      console.log(oldValue);
-      if(newValue === 12) {
-        alert("Game is over! Start a new one?");
+    data() {
+      return {
+        buildings,
+        phoneCodes,
+        formData: {
+          username: "",
+          email: "",
+          code: "",
+          tel: "",
+          building: "",
+          password: "",
+          confirmPassword: "",
+        }
       }
-
-      console.log('i am here');
-    }
-  },
-  methods: {
-    
-    flipCard(event) {
-      const currentElementId = Number(event.currentTarget.attributes["index"].value);
-      this.currentFlippedCards.push(this.cardsDataFrontFace[currentElementId]);
-      this.cardsDataFrontFace[currentElementId].isFliped = true;
-      if(this.currentFlippedCards.length > 1 && this.currentFlippedCards[0].elementType === this.currentFlippedCards[1].elementType) {
-        this.currentFlippedCards = [];
-        this.guessedCards +=  2;
-      } else if(this.currentFlippedCards.length === 2 && this.currentFlippedCards[0].elementType !== this.currentFlippedCards[1].elementType) {
-        setTimeout(() => {
-          this.cardsDataFrontFace[this.currentFlippedCards[0].index].isFliped = false;
-          this.cardsDataFrontFace[this.currentFlippedCards[1].index].isFliped = false;
-          this.currentFlippedCards = [];
-        }, 800);
-       
+    },
+    validations: {
+      formData: {
+        username: { required, alpha },
+        email: { required, email },
+        code: {required},
+        tel: {required},
+        building: {required},
+        password: { 
+          required,
+          minLength: minLength(3),
+          maxLength: maxLength(16),
+        },
+        confirmPassword: {
+          sameAsPassword: sameAs('password')
+        },
       }
+    },
+    computed: {
 
-      // if(event.currentTarget.childNodes[1].style.display === "none") {
-      //   event.currentTarget.childNodes[1].style.display = "block";
-      //   event.currentTarget.childNodes[0].style.display = "none";
-      // } else {
-      //   event.currentTarget.childNodes[1].style.display = "none";
-      //   event.currentTarget.childNodes[0].style.display = "block";
-      // }
+    },
+    methods: {
+      handleFormSubmit() {
+        console.log({...this.formData});
+      }
+    },
+    mounted() {
 
-    }
-  },
-  computed: {
+    },
 
-  }
+
 }
+
 </script>
 
 <style>
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+
+form {
+    margin-top: 20px;
+    width: 40%;
 }
 
-body {
-  height: 100vh;
-  display: flex;
-  background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+fieldset {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+input {
+    flex: 0 1 100%;
+    border: 1px solid;
+    padding: 5px;
+    border-left: 3px solid #42a948;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+select {
+    border-color: black;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 0.8em 1.2em;
+    width: 100%;
+}
+
+i {
+    border: 1px solid;
+    border-right: none;
+    padding: 10px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #e9ecef;
+}
+
+a {
+    color:  #007bff;
+}
+
+.container {
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.tel {
+    padding-right: 20px;
+}
+
+.building {
+    flex: 1 1 100%;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+form .field {
+    display: flex;
 }
 
 
-#app {
-  width: 100%;
-  padding: 7%;
-}
-.memory-game {
-  width: 640px;
-  height: 640px;
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  perspective: 1000px;
+/* if error */
+
+p.error {
+    text-align: left;
+    background-color: #f8d7da;
+    padding: 8px;
+    border-radius: 3px;
 }
 
-.memory-card {
-  width: calc(25% - 10px);
-  height: calc(33.333% - 10px);
-  margin: 5px;
-  position: relative;
-  transform: scale(1);
-  transform-style: preserve-3d;
-  transition: transform .5s;
-  box-shadow: 1px 1px 1px rgba(0,0,0,.3);
-}
-
-.disable-card {
-  pointer-events: none;
-}
-
-.memory-card:active {
-  transform: scale(0.97);
-  transition: transform .2s;
-}
-
-.memory-card.flip {
-  transform: rotateY(180deg);
-}
-
-.front-face,
-.back-face {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  position: absolute;
-  border-radius: 5px;
-  background: #FFF29E;
-  backface-visibility: hidden;
-}
-
-.front-face {
-  transform: rotateY(0deg);
-}
-
-.counter {
-  position: absolute;
-  top: 0px;
-  right: 0px;
+input.error {
+    border-left-color:#a8413f;
 }
 </style>
