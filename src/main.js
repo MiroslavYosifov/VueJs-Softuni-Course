@@ -1,16 +1,12 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
-import { createRouter, createWebHistory } from 'vue-router';
-import Vuelidate from 'vuelidate';
+// import Vuelidate from 'vuelidate';
+import router from './router.js';
 
-Vue.use(Vuelidate);
-Vue.config.productionTip = false
+const app = createApp(App);
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: []
-});
+// app.use(Vuelidate);
+app.use(router);
+app.config.productionTip = false;
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+app.mount('#app');

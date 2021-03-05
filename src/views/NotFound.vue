@@ -1,5 +1,5 @@
 <template>
-  <h2>HELLLO I My profile PAGE</h2>
+  <h2>Not found such a page</h2>
 </template>
 
 <script>
