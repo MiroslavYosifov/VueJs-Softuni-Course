@@ -1,16 +1,18 @@
 <template>
-    <ul v-if="!isSelectedDetailProjectPage">
-        <li v-for="(project, index) of projects" 
-            :key="index">
+    <ul class="project-list-wrapper" v-if="!isSelectedDetailProjectPage">
+        <li 
+            v-for="(project, index) of projects" 
+            :key="index"
+            :id="project.id" 
+            @click.prevent="loadDetailPage">
             <ProjectCard
                 :projectId="project.id"
                 :name="project.name"
-                :description="project.description"
                 :creator="projects.creator"
                 :members="projects.members"
                 :features="projects.features"
+                :isListPage="true"
             />
-            <button :id="project.id" @click.prevent="loadDetailPage">Details</button>
         </li>
     </ul>   
     <router-view :on-back="onBack" @on-back="onBack"></router-view>
@@ -47,7 +49,7 @@ export default {
     },
     methods: {
         loadDetailPage(e) {
-            const projectId = e.target.id;
+            const projectId = e.currentTarget.id;
             this.isSelectedDetailProjectPage = true;
             this.$router.push(`/projects/${projectId}`);
         },
@@ -65,5 +67,7 @@ export default {
 </script>
 
 <style>
-
+.project-list-wrapper {
+    background: rgb(207, 207, 207);
+}
 </style>

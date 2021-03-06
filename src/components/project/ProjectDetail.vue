@@ -1,5 +1,9 @@
 <template>
   <main class="project-details wrapper">
+  <nav class="project-details navigation">
+    <button @click.prevent="backToPreviusPage">Back</button>
+    <button >Add Feature</button>
+  </nav>
    <header class="project-details header">
       <h2>PROJECT ADD NEW FORM FOR SALES</h2>
    </header>
@@ -16,7 +20,8 @@
             :description="project.description"
             :creator="projects.creator"
             :members="projects.members"
-            :features="projects.features"/>
+            :features="projects.features"
+            :isListPage="false"/>
         </div>
       </section>
     </div>
@@ -73,10 +78,6 @@
       </section>
     </div>
   </div>
-  <footer class="project-details footer">
-    <button @click.prevent="backToPreviusPage">Back</button>
-    <button >Add Feature</button>
-  </footer>
   </main>
 </template>
 <script>

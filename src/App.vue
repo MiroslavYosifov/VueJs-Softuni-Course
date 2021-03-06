@@ -44,4 +44,7 @@ export default {
 body {
   padding: 2em;
 }
+.container {
+  margin-top: 6em;
+}
 </style>
