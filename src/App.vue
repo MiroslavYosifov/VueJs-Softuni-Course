@@ -1,9 +1,9 @@
 <template>
 <Header/>
 <main class="container">
-  <header>
+  <!-- <header>
     <h1>APP VUE COMPONENT</h1>
-  </header>
+  </header> -->
   <router-view></router-view>
 </main>
 <Footer/>
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style>
-.body {
-  background: red;
+body {
+  padding: 2em;
 }
 </style>
