@@ -13,31 +13,31 @@ export default {
   props: {
     projectId: {
         type: String,
-        required: true,
+        required: false,
     },
     name: {
         type: String,
-        required: true,
+        required: false,
     },
     date: {
         type: String,
-        required: true,
+        required: false,
     },
     description: {
         type: String,
-        required: true,
+        required: false,
     },
     creator: {
         type: String,
-        required: true,
+        required: false,
     },
     members: {
         type: Array,
-        required: true,
+        required: false,
     },
     features: {
         type: Array,
-        required: true,
+        required: false,
     },
     isListPage: {
         type: Boolean,

@@ -12,6 +12,7 @@
 html {
     box-sizing: border-box;
     font: 14px/1.5 Verdana, Geneva, Tahoma, sans-serif;
+    color: rgb(92, 92, 92);
 }
 
 body {

@@ -1,4 +1,5 @@
 <template>
+<div>
 <Header/>
 <main class="container">
   <!-- <header>
@@ -7,6 +8,7 @@
   <router-view></router-view>
 </main>
 <Footer/>
+</div>
 </template>
 <script>
 
@@ -23,9 +25,6 @@ export default {
       return {
     
       }
-    },
-    validations: {
-
     },
     computed: {
 

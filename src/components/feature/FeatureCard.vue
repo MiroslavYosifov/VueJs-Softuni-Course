@@ -1,5 +1,5 @@
 <template>
-  <div :id="projectId">
+  <div :id="featureId">
         <section>
           <h4>Feature name: My FeatureCard</h4>
           <p v-if="!status">Description: The goal in this feature is fgreg5rg45gh54hg54h54h54 g54gh54hg h54h54hg54hg54 h54h54</p>
@@ -20,17 +20,21 @@
 
 export default {
   props: {
+    featureId: {
+      type: Number,
+      required: false,
+    },
     name: {
       type: String,
-      required: true
+      required: false,
     },
     date: {
       type: String,
-      required: true
+      required: false,
     },
     creator: {
       type: String,
-      required: true
+      required: false,
     },
     project: {
       type: String,
@@ -38,11 +42,11 @@ export default {
     },
     suggestions: {
       type: Array,
-      required: true
+      required: false,
     },
     issues: {
       type: Array,
-      required: true
+      required: false,
     },
   },
   data() {

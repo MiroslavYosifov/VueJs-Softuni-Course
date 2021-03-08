@@ -30,14 +30,20 @@
         <h3>Suggestions</h3>
       </header>
       <section>  
-        <div class="project-details block-element suggestions">
-          <FeatureCard />
+        <div id="1" class="project-details block-element suggestions">
+          <FeatureCard 
+            :featureId="1"
+            @click.prevent="loadFeatureDetailPage"/>
         </div>
-        <div class="project-details block-element suggestions">
-          <FeatureCard />
+        <div id="2" class="project-details block-element suggestions">
+          <FeatureCard 
+            :featureId="2"
+            @click.prevent="loadFeatureDetailPage"/>
         </div>
-        <div class="project-details block-element suggestions">
-          <FeatureCard />
+        <div id="3" class="project-details block-element suggestions">
+          <FeatureCard 
+            :featureId="3"
+            @click.prevent="loadFeatureDetailPage"/>
         </div>
       </section>
     </div>
@@ -111,7 +117,13 @@ export default {
     backToPreviusPage() {
       this.$emit('on-back')
       this.$router.back();
-    }
+    },
+    loadFeatureDetailPage(e) {
+        const featureId = e.currentTarget.id;
+        this.isSelectedDetailProjectPage = true;
+        console.log(this.$route);
+        this.$router.push(`/feature/${featureId}`);
+    },
   },
   created() {
     this.updatedProjectInfo();
@@ -130,7 +142,7 @@ export default {
   padding: 1em;
   display: flex;
   flex-wrap: wrap;
-  background: rgb(230, 230, 230);
+  background: rgb(245, 238, 225);
 }
 
 .project-details.header {
@@ -169,7 +181,7 @@ export default {
 }
 
 .project-details.block-element {
-  background: rgb(114, 138, 167);
+  background: rgb(154, 167, 184);
   padding: 0.6em 0.2em;
   color: white;
   margin-bottom: 0.4em;

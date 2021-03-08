@@ -1,25 +1,29 @@
 <template>
+  <div>
+    <ProjectForm/>
     <ul class="project-list-wrapper" v-if="!isSelectedDetailProjectPage">
-        <li 
-            v-for="(project, index) of projects" 
-            :key="index"
-            :id="project.id" 
-            @click.prevent="loadDetailPage">
-            <ProjectCard
-                :projectId="project.id"
-                :name="project.name"
-                :creator="projects.creator"
-                :members="projects.members"
-                :features="projects.features"
-                :isListPage="true"
-            />
-        </li>
+      <li 
+          v-for="(project, index) of projects" 
+          :key="index"
+          :id="project.id" 
+          @click.prevent="loadProjectDetailPage">
+          <ProjectCard
+              :projectId="project.id"
+              :name="project.name"
+              :creator="project.creator"
+              :members="project.members"
+              :features="project.features"
+              :isListPage="true"
+          />
+      </li>
     </ul>   
     <router-view :on-back="onBack" @on-back="onBack"></router-view>
+  </div>
 </template>
 <script>
 
 import ProjectCard from '../components/project/ProjectCard.vue';
+import ProjectForm from '../components/project/ProjectForm.vue';
 
 export default {
     props: {
@@ -27,6 +31,7 @@ export default {
     },
     components: {
       ProjectCard,
+      ProjectForm
     },
     data() {
       return {
@@ -48,7 +53,7 @@ export default {
 
     },
     methods: {
-        loadDetailPage(e) {
+        loadProjectDetailPage(e) {
             const projectId = e.currentTarget.id;
             this.isSelectedDetailProjectPage = true;
             this.$router.push(`/projects/${projectId}`);
@@ -68,6 +73,6 @@ export default {
 
 <style>
 .project-list-wrapper {
-    background: rgb(207, 207, 207);
+    background: rgb(236, 229, 216);
 }
 </style>

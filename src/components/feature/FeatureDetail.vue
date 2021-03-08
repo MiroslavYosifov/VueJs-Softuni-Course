@@ -1,11 +1,19 @@
 <template>
-  <h2>HELLLO I AM Feature Detail PAGE</h2>
+<div>
+  <FeatureCard/>
+</div>
 </template>
 
 <script>
+
+import FeatureCard from './FeatureCard.vue';
+
 export default {
   props: {
 
+  },
+  components: {
+    FeatureCard
   },
   computed: {
 

@@ -1,63 +1,60 @@
 <template>
-    <div id="signin">
-        <div class="signin-form">
-            <form @submit.prevent="onSubmit">
-                <div class="input">
-                  <label for="name">Name</label>
-                  <input
-                        type="text"
-                        id="name"
-                        v-model="name">
-                </div>
-                <div class="input">
-                  <label for="description">Description</label>
-                  <input
-                        type="text"
-                        id="description"
-                        v-model="description">
-                </div>
-                <div class="submit">
-                  <button type="submit">Submit</button>
-                </div>
-            </form>
+  <div id="signin">
+    <div class="signin-form">
+      <form @submit.prevent="onSubmit">
+        <div class="input">
+          <label for="name">Name</label>
+          <input
+                  type="text"
+                  id="name"
+                  v-model="name">
         </div>
+        <div class="input">
+          <label for="password">Password</label>
+          <input
+                  type="password"
+                  id="password"
+                  v-model="password">
+        </div>
+        <div class="submit">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+  import axiosAuth from '../../services/auth-axios';
 
-import axiosAuth from '../../services/project-axios';
-
-export default {
+  export default {
     data () {
       return {
         name: '',
         password: ''
       }
     },
-    computed: {
-      
-    },
     methods: {
       async onSubmit () {
         const formData = {
           name: this.name,
-          description: this.description,
+          password: this.password,
         }
         console.log(formData)
         try {
-            const res = await axiosAuth.createProject(formData);
-            console.log(res);
+           const res = await axiosAuth.signin(formData);
+          console.log(res);
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
+       
       }
-    },
-};
+    }
+  }
 </script>
 
-<style>
-.signin-form {
+<style scoped>
+  .signin-form {
     width: 400px;
     margin: 30px auto;
     border: 1px solid #eee;
@@ -101,5 +98,14 @@ export default {
   .submit button:active {
     background-color:rgb(114, 138, 167);
     color: white;
+  }
+
+  .submit button[disabled],
+  .submit button[disabled]:hover,
+  .submit button[disabled]:active {
+    border: 1px solid #ccc;
+    background-color: transparent;
+    color: #ccc;
+    cursor: not-allowed;
   }
 </style>

@@ -1,50 +1,52 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+Vue.use(VueRouter);
 
 import About from './views/About.vue';
 import Contact from './views/Contact.vue';
 import ProjectPage from './views/ProjectPage.vue';
 import ProjectDetail from './components/project/ProjectDetail.vue';
+import FeatureDetail from './components/feature/FeatureDetail.vue';
 import MyProfile from './views/MyProfile.vue';
+import SigninForm from './components/auth/SigninForm.vue';
+import SignupForm from './components/auth/SignupForm.vue';
 import NotFound from './views/NotFound.vue';
 
+const routes = [
+  { path: '/', component: About },
+  { path: '/about', component: About, children: [] },
+  { path: '/contact', component: Contact },
+  { 
+    path: '/projects', 
+    component: ProjectPage, 
+    children: [ 
+      { 
+        path: ':projectId', 
+        component: ProjectDetail, 
+        props: true,
+      },
+      { 
+        path: '/feature/:featureId', 
+        component: FeatureDetail, 
+        props: true 
+      } 
+    ] 
+  },
+  { 
+    path: '/my-profile', 
+    component: MyProfile,
+    beforeEnter(to, from, next) {
+      console.log(to, from);
+      next();
+    }
+  },
+  { path: '/signin', component: SigninForm },
+  { path: '/signup', component: SignupForm },
+  { path: '/:notFound(.*)', component: NotFound }
+];
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [
-    { path: '/', component: About },
-    { path: '/about', component: About, children: [] },
-    { path: '/contact', component: Contact },
-    { 
-      path: '/projects', 
-      component: ProjectPage, 
-      children: [ 
-        { 
-          path: ':projectId', 
-          component: ProjectDetail, 
-          props: true 
-        } 
-      ] 
-    },
-    { 
-      path: '/my-profile', 
-      component: MyProfile,
-      beforeEnter(to, from, next) {
-        console.log(to, from);
-        next();
-      }
-    },
-    { path: '/:notFound(.*)', component: NotFound }
-  ]
+export const router = new VueRouter({
+  mode: 'history',
+  routes
 });
-
-router.beforeEach(function(to, from, next) {
-  console.log(to, from);
-  next(); //accept path
-  //next(false); //decline path
-})
-
-// router.afterEach(function(to, from, next) {
-//   // sending analytics data
-// })
-
-export default router;
