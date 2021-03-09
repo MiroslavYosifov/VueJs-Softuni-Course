@@ -12,7 +12,7 @@ function axiosSetups () {
     }); 
 
     axios.interceptors.response.use(res => {
-      console.log('REQUEST', res);
+      console.log('RESPONSE', res);
       return res;
     });
 }

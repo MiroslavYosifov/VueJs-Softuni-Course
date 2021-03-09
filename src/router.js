@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import { store } from './store/store';
+
 Vue.use(VueRouter);
 
 import About from './views/About.vue';
@@ -37,8 +39,13 @@ const routes = [
     path: '/my-profile', 
     component: MyProfile,
     beforeEnter(to, from, next) {
-      console.log(to, from);
-      next();
+      console.log('Pytiq', store.state);
+      if(store.state.authToken) {
+        next();
+      } else {
+        next('/signin');
+      }
+      
     }
   },
   { path: '/signin', component: SigninForm },

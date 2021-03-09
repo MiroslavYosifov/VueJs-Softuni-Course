@@ -25,8 +25,6 @@
 </template>
 
 <script>
-  import axiosAuth from '../../services/auth-axios';
-
   export default {
     data () {
       return {
@@ -41,13 +39,7 @@
           password: this.password,
         }
         console.log(formData)
-        try {
-           const res = await axiosAuth.signin(formData);
-          console.log(res);
-        } catch (error) {
-          console.log(error);
-        }
-       
+        this.$store.dispatch('signin', { ...formData })
       }
     }
   }

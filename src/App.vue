@@ -32,6 +32,9 @@ export default {
     methods: {
 
     },
+    created() {
+      this.$store.dispatch('checkIsTokenExpired');
+    },
     mounted() {
 
     },
