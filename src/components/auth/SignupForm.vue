@@ -7,14 +7,32 @@
           <input
                   type="text"
                   id="name"
-                  v-model="name">
+                  placeholder="Username"
+                  v-model="$v.formData.name.$model">
+              <!-- if error -->
+              <p class="error" v-if="$v.formData.name.$error"> Full name field is invalid!</p>
+              <!-- end if error -->
         </div>
         <div class="input">
           <label for="password">Password</label>
           <input
                   type="password"
                   id="password"
-                  v-model="password">
+                  placeholder="Password"
+                  v-model="$v.formData.password.$model">
+              <!-- if error -->
+              <p class="error" v-if="$v.formData.password.$error"> Full name field is invalid!</p>
+              <!-- end if error -->
+        </div>
+        <div class="input">
+          <label for="re-password">Comfirm Password</label>
+          <input 
+            type="password" 
+            name="re-password" 
+            id="re-password" 
+            placeholder="******"
+            v-model="$v.formData.confirmPassword.$model">
+          <p class="error" v-if="!$v.formData.confirmPassword.sameAsPassword">Password not match!</p>
         </div>
         <div class="submit">
           <button type="submit">Submit</button>
@@ -26,24 +44,45 @@
 
 <script>
 
-  export default {
-    data () {
-      return {
-        name: '',
-        password: '',
-      }
-    },
-    methods: {
-      async onSubmit () {
-        const formData = {
-          name: this.name,
-          password: this.password
+import { required, minLength, maxLength, sameAs } from "vuelidate/lib/validators/index.js";
+
+export default {
+  data () {
+    return {
+      formData: {
+          name: "",
+          password: "",
+          confirmPassword: ""
         }
-        console.log(formData);
-        this.$store.dispatch('signup', { ...formData })
+    }
+  },
+  validations: {
+      formData: {
+        name: { 
+          required,
+          minLength: minLength(4),
+        },
+        password: { 
+          required,
+          minLength: minLength(4),
+          maxLength: maxLength(16),
+        },
+        confirmPassword: {
+          sameAsPassword: sameAs('password')
+        },
       }
+  },
+  methods: {
+    async onSubmit () {
+      const formData = {
+        name: this.name,
+        password: this.password
+      }
+      console.log(formData);
+      // this.$store.dispatch('signup', { ...formData })
     }
   }
+}
 </script>
 
 <style scoped>

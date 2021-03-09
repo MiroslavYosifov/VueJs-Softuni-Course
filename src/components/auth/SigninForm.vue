@@ -7,14 +7,18 @@
           <input
                   type="text"
                   id="name"
-                  v-model="name">
+                  placeholder="Username"
+                  v-model="$v.formData.name.$model">
+          <p class="error" v-if="$v.formData.name.$error"> Full name field is invalid!</p>
         </div>
         <div class="input">
           <label for="password">Password</label>
           <input
                   type="password"
                   id="password"
-                  v-model="password">
+                  placeholder="Password"
+                  v-model="$v.formData.password.$model">
+          <p class="error" v-if="$v.formData.password.$error"> Full name field is invalid!</p>
         </div>
         <div class="submit">
           <button type="submit">Submit</button>
@@ -25,12 +29,30 @@
 </template>
 
 <script>
+
+  import { required, minLength, maxLength } from "vuelidate/lib/validators/index.js";
+
   export default {
     data () {
-      return {
-        name: '',
-        password: ''
-      }
+    return {
+      formData: {
+          name: "",
+          password: ""
+        }
+    }
+    },
+    validations: {
+        formData: {
+          name: { 
+            required,
+            minLength: minLength(4),
+          },
+          password: { 
+            required,
+            minLength: minLength(4),
+            maxLength: maxLength(16),
+          }
+        }
     },
     methods: {
       async onSubmit () {
