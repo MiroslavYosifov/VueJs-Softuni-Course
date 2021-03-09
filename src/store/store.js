@@ -16,6 +16,9 @@ export const store = new Vuex.Store({
         isAuthenticated (state) {
             return state.authToken !== null;
         },
+        getAuthToken (state) {
+            return state.authToken;
+        },
         userInfo (state) {
             const user = {
                 userId: state.userId,

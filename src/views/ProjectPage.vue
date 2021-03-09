@@ -1,46 +1,49 @@
 <template>
   <div>
-    <ProjectForm/>
-    <ul class="project-list-wrapper" v-if="!isSelectedDetailProjectPage">
-      <li 
-          v-for="(project, index) of projects" 
-          :key="index"
-          :id="project.id" 
-          @click.prevent="loadProjectDetailPage">
-          <ProjectCard
-              :projectId="project.id"
-              :name="project.name"
-              :creator="project.creator"
-              :members="project.members"
-              :features="project.features"
-              :isListPage="true"
-          />
-      </li>
-    </ul>   
+    <template v-if="!isSelectedDetailProjectPage">
+      <ProjectForm  @on-project-submit="onProjectFormSubmit"/>
+      <table class="project-list-wrapper">
+        <tr>
+          <th>ID</th>
+          <th>Project Name</th>
+          <th>Created On</th>
+          <th>Last Updated</th>
+          <th>Creator</th>
+          <th>Members</th>
+          <th>Features</th>
+        </tr>
+        <tr v-for="(project, index) of getProjects" 
+            :key="index"
+            :id="project.id" 
+            @click.prevent="loadProjectDetailPage">  
+          <td>{{project._id}}</td>
+          <td>{{project.name}}</td>
+          <td>{{project.date}}</td>
+          <td>{{project.date}}</td>
+          <td>{{project.creator.name}}</td>
+          <td>{{project.members.length}}</td>
+          <td>{{project.features.length}}</td>
+        </tr>
+      </table>
+    </template>
     <router-view :on-back="onBack" @on-back="onBack"></router-view>
   </div>
 </template>
 <script>
 
-import ProjectCard from '../components/project/ProjectCard.vue';
 import ProjectForm from '../components/project/ProjectForm.vue';
+import axiosProject from '../services/project-axios';
 
 export default {
     props: {
 
     },
     components: {
-      ProjectCard,
       ProjectForm
     },
     data() {
       return {
-        projects: [
-          { id: "1", name: "First", description: "have come across a weird issue with one of our drawings. we have noticed over the last few days random letters are being replaced in our MTEXT boxes. The dwg preview box shows the last save state as correct, but as soon as the drawing is opened (on any hardware in our office) the lhave come across a weird issue with one of our drawings. we have noticed over the last few days random letters are being replaced in our MTEXT boxes. The dwg preview box shows the last save state as correct, but as soon as the drawing is opened (on any hardware in our office) the letters show up as being replacehave come across a weird issue with one of our drawings. we have noticed over the last few days random letters are being replaced in our MTEXT boxes. The dwg preview box shows the last save state as correct, but as soon as the drawing is opened (on any hardware in our office) the letters show up as being replaceetters show up as being replace", creator: 'IVAN', members: [], features: [] },
-          { id: "2", name: "Second", description: "FV3G43G443", creator: 'IVAN',  members: [], features: [] },
-          { id: "3", name: "Third", description: "have come across a weird issue with one of our drawings. we have noticed over the last few days random letters are being replaced in our MTEXT boxes. The dwg preview box shows the last save state as correct, but as soon as the drawing is opened (on any hardware in our office) the letters show up as being replace", creator: 'IVAN', members: [], features: [] },
-          { id: "4", name: "Fourth", description: "FV3G43G443", creator: 'IVAN', members: [], features: [] }
-        ],
+        projects: [],
         isSelectedDetailProjectPage: false
       }
     },
@@ -50,7 +53,9 @@ export default {
       }
     },
     computed: {
-
+      getProjects() {
+        return this.projects;
+      }
     },
     methods: {
         loadProjectDetailPage(e) {
@@ -58,9 +63,20 @@ export default {
             this.isSelectedDetailProjectPage = true;
             this.$router.push(`/projects/${projectId}`);
         },
+        onProjectFormSubmit(createdProject) {
+            this.projects.unshift(createdProject);
+        },
         onBack() {
             this.isSelectedDetailProjectPage = false
         }
+    },
+    async created() {
+      try {
+        const projects = await axiosProject.listProjects();
+        this.projects = projects.data;
+      } catch (error) {
+        console.log(error);
+      }
     },
     mounted() {
         this.isSelectedDetailProjectPage = false;
@@ -72,7 +88,29 @@ export default {
 </script>
 
 <style>
-.project-list-wrapper {
-    background: rgb(236, 229, 216);
+.project-list-wrapper { 
+    width: 100%;
+    padding: 1em;
+    border-collapse: collapse;
+    background: rgb(250, 246, 238);
+}
+
+.project-list-wrapper tr:hover {
+  cursor: pointer;
+}
+
+.project-list-wrapper tr th,
+.project-list-wrapper tr td {
+    border: 2px solid rgb(255, 255, 255);
+    text-align: center;
+    padding: 0.8em;
+}
+
+.project-list-wrapper tr:hover td {
+    background: rgb(196, 204, 214);
+}
+
+.project-list-wrapper tr th {
+  background:rgb(228, 223, 215);
 }
 </style>

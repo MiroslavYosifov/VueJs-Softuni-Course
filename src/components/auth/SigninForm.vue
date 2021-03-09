@@ -7,6 +7,7 @@
           <input
                   type="text"
                   id="name"
+                  name="name"
                   placeholder="Username"
                   v-model="$v.formData.name.$model">
           <p class="error" v-if="$v.formData.name.$error"> Full name field is invalid!</p>
@@ -16,6 +17,7 @@
           <input
                   type="password"
                   id="password"
+                  name="password"
                   placeholder="Password"
                   v-model="$v.formData.password.$model">
           <p class="error" v-if="$v.formData.password.$error"> Full name field is invalid!</p>
@@ -56,12 +58,7 @@
     },
     methods: {
       async onSubmit () {
-        const formData = {
-          name: this.name,
-          password: this.password,
-        }
-        console.log(formData)
-        this.$store.dispatch('signin', { ...formData })
+        this.$store.dispatch('signin', { ...this.formData })
       }
     }
   }
@@ -69,27 +66,20 @@
 
 <style scoped>
   .signin-form {
-    width: 400px;
-    margin: 30px auto;
+    width: 30em;
+    margin: 0 auto;
+    padding: 1.4em;
     border: 1px solid #eee;
-    padding: 20px;
     box-shadow: 0 2px 3px #ccc;
-  }
-
-  .input {
-    margin: 10px auto;
   }
 
   .input label {
     display: block;
-    color: #4e4e4e;
-    margin-bottom: 6px;
   }
 
   .input input {
-    font: inherit;
     width: 100%;
-    padding: 6px 12px;
+    padding: 0.6em;
     box-sizing: border-box;
     border: 1px solid #ccc;
   }
@@ -97,14 +87,15 @@
   .input input:focus {
     outline: none;
     border: 1px solid rgb(114, 138, 167);
-    background-color: #eee;
+    background-color: rgb(255, 255, 255);
   }
 
   .submit button {
     border: 1px solid rgb(114, 138, 167);
     color: rgb(114, 138, 167);
+    background: rgb(250, 246, 238);
     padding: 10px 20px;
-    font: inherit;
+    font-weight: bold;
     cursor: pointer;
   }
 
@@ -112,14 +103,5 @@
   .submit button:active {
     background-color:rgb(114, 138, 167);
     color: white;
-  }
-
-  .submit button[disabled],
-  .submit button[disabled]:hover,
-  .submit button[disabled]:active {
-    border: 1px solid #ccc;
-    background-color: transparent;
-    color: #ccc;
-    cursor: not-allowed;
   }
 </style>

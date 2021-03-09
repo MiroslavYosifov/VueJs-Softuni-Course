@@ -9,9 +9,7 @@
                   id="name"
                   placeholder="Username"
                   v-model="$v.formData.name.$model">
-              <!-- if error -->
-              <p class="error" v-if="$v.formData.name.$error"> Full name field is invalid!</p>
-              <!-- end if error -->
+          <p class="error" v-if="$v.formData.name.$error"> Full name field is invalid!</p>
         </div>
         <div class="input">
           <label for="password">Password</label>
@@ -20,9 +18,7 @@
                   id="password"
                   placeholder="Password"
                   v-model="$v.formData.password.$model">
-              <!-- if error -->
-              <p class="error" v-if="$v.formData.password.$error"> Full name field is invalid!</p>
-              <!-- end if error -->
+          <p class="error" v-if="$v.formData.password.$error"> Full name field is invalid!</p>
         </div>
         <div class="input">
           <label for="re-password">Comfirm Password</label>
@@ -74,101 +70,50 @@ export default {
   },
   methods: {
     async onSubmit () {
-      const formData = {
-        name: this.name,
-        password: this.password
-      }
-      console.log(formData);
-      // this.$store.dispatch('signup', { ...formData })
+      this.$store.dispatch('signup', { ...this.formData })
     }
   }
 }
 </script>
 
 <style scoped>
-  .signup-form {
-    width: 400px;
-    margin: 30px auto;
+   .signup-form {
+    width: 30em;
+    margin: 0 auto;
+    padding: 1.4em;
     border: 1px solid #eee;
-    padding: 20px;
     box-shadow: 0 2px 3px #ccc;
-  }
-
-  .input {
-    margin: 10px auto;
   }
 
   .input label {
     display: block;
-    color: #4e4e4e;
-    margin-bottom: 6px;
-  }
-
-  .input.inline label {
-    display: inline;
   }
 
   .input input {
-    font: inherit;
     width: 100%;
-    padding: 6px 12px;
+    padding: 0.6em;
     box-sizing: border-box;
     border: 1px solid #ccc;
-  }
-
-  .input.inline input {
-    width: auto;
   }
 
   .input input:focus {
     outline: none;
     border: 1px solid rgb(114, 138, 167);
-    background-color: #eee;
-  }
-
-  .input select {
-    border: 1px solid #ccc;
-    font: inherit;
-  }
-
-  .hobbies button {
-    border: 1px solid rgb(114, 138, 167);
-    background: rgb(114, 138, 167);
-    color: white;
-    padding: 6px;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .hobbies button:hover,
-  .hobbies button:active {
-    background-color:rgb(114, 138, 167);
-  }
-
-  .hobbies input {
-    width: 90%;
+    background-color: rgb(255, 255, 255);
   }
 
   .submit button {
     border: 1px solid rgb(114, 138, 167);
     color: rgb(114, 138, 167);
+    background: rgb(250, 246, 238);
     padding: 10px 20px;
-    font: inherit;
+    font-weight: bold;
     cursor: pointer;
   }
 
   .submit button:hover,
   .submit button:active {
-    background-color: rgb(114, 138, 167);
+    background-color:rgb(114, 138, 167);
     color: white;
-  }
-
-  .submit button[disabled],
-  .submit button[disabled]:hover,
-  .submit button[disabled]:active {
-    border: 1px solid #ccc;
-    background-color: transparent;
-    color: #ccc;
-    cursor: not-allowed;
   }
 </style>

@@ -12,7 +12,7 @@
                 <router-link to="/projects">Projects</router-link>
               </li>
               <li v-if="auth">
-                <router-link to="/my-profile">{{userInfo.username}}</router-link>
+                <router-link to="/my-profile">Hello {{userInfo.username}}!</router-link>
               </li>
               <template v-if="!auth">
                 <li>
@@ -56,8 +56,11 @@ export default {
     position: fixed;
     top: 0; left: 0;
     width: 100%;
-    background: rgb(154, 167, 184);
+    /* background: rgb(154, 167, 184); */
     padding: 0 2em;
+    background: white;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
 }
 
 .site-header.navigation {
@@ -78,35 +81,35 @@ export default {
 
 .site-header.navigation ul li a {
     display: block;
-    color: rgb(245, 238, 225);
+    color: rgb(114, 138, 167);
     padding: 0.4em;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 
 .site-header.navigation ul li .router-link-active {
-    background: rgb(114, 138, 167);
-    color: rgb(245, 238, 225);
+    background: rgb(154, 167, 184);
+    color: rgb(255, 255, 255);
 }
 
 .site-header.navigation ul li a:hover {
-    background: rgb(114, 138, 167);
-    color: rgb(236, 229, 216);
+    background: rgb(154, 167, 184);
+    color: rgb(255, 255, 255);
 }
 
 .logout {
   padding: 0.6em;
   height: 100%;
   font-size: 1.3em;
-  color: rgb(245, 238, 225);
   display: block;
   background: transparent;
+  color: rgb(154, 167, 184);
   border: none;
   cursor: pointer;
 }
 
 .logout:hover {
-    background: rgb(114, 138, 167);
-    color: rgb(236, 229, 216);
+  background: rgb(154, 167, 184);
+  color: rgb(255, 255, 255);
 }
 
 </style>

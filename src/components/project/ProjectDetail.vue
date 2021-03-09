@@ -142,13 +142,13 @@ export default {
   padding: 1em;
   display: flex;
   flex-wrap: wrap;
-  background: rgb(245, 238, 225);
+  background: rgb(250, 246, 238);
 }
 
 .project-details.header {
   width: 100%;
+  padding: 2em 0;
   text-align: center;
-  padding: 2em;
 }
 
 .project-details footer {
@@ -175,22 +175,24 @@ export default {
 }
 
 .project-details.block-element-container.info div {
-  background: white;
+  /* background: white; */
   padding: 0.6em;
   border-radius: 0.4em;
 }
 
 .project-details.block-element {
-  background: rgb(154, 167, 184);
+  /* background: rgb(154, 167, 184); */
+  background: white;
+  border: 1px solid rgb(154, 167, 184);
   padding: 0.6em 0.2em;
-  color: white;
+  color: rgb(109, 125, 145);
   margin-bottom: 0.4em;
-  border-radius: 0.4em;
+  border-radius: 0.1em;
 }
 
 .project-details.block-element:hover {
   cursor: pointer;
-  transform: scale(1.02);
+  transform: scale(1.005);
 }
 
 </style>
