@@ -1,95 +1,58 @@
 <template>
-  <main class="project-details wrapper">
-  <nav class="project-details navigation">
-    <button @click.prevent="backToPreviusPage">Back</button>
-    <button >Add Feature</button>
-  </nav>
-   <header class="project-details header">
-      <h2>PROJECT ADD NEW FORM FOR SALES</h2>
-   </header>
-   <div class="project-details content">
-    <div class="project-details block-element-container info" >
-      <header>
-        <h3>Project information</h3>
-      </header>
-      <section>
-        <div>
-          <ProjectCard 
-            :projectId="projectId"
-            :name="project.name"
-            :description="project.description"
-            :creator="projects.creator"
-            :members="projects.members"
-            :features="projects.features"
-            :isListPage="false"/>
-        </div>
-      </section>
+  <div>
+
+  <FeatureForm 
+    v-if="navigation.showFeatureForm" 
+    @on-feature-submit="onFeatureFormSubmit"
+  />
+
+  <main v-if="isProjectEmpty" class="project-details wrapper">
+
+    <nav class="project-navigation">
+        <button @click.prevent="showFeatureForm">Add Feature</button>
+        <button>Invite Member</button>
+        <button>Edit Project</button>
+        <button>Delete Project</button>
+        <button @click.prevent="backToPreviusPage">Back</button>
+    </nav>
+
+    <header class="project-details header">
+       <h1>Project name: {{project.name.toUpperCase()}}</h1>
+    </header>
+    <div class="project-details content">
+     <div class="project-details block-element-container info" >
+       <header>
+         <span><i class="fas fa-info-circle"></i></span>
+         <h3>Project information</h3>
+       </header>
+       <section>
+         <div>
+           <ProjectCard 
+             :projectId="project._id"
+             :date="project.date"
+             :description="project.description"
+             :creator="project.creator.name"
+             :members="project.members.length"
+             :features="project.features.length"
+             :isListPage="false"/>
+         </div>
+       </section>
+     </div>
+         <FeaturesListByStatus
+            :project="project"
+          />
     </div>
-    <div class="project-details block-element-container suggestions" >
-      <header>
-        <h3>Suggestions</h3>
-      </header>
-      <section>  
-        <div id="1" class="project-details block-element suggestions">
-          <FeatureCard 
-            :featureId="1"
-            @click.prevent="loadFeatureDetailPage"/>
-        </div>
-        <div id="2" class="project-details block-element suggestions">
-          <FeatureCard 
-            :featureId="2"
-            @click.prevent="loadFeatureDetailPage"/>
-        </div>
-        <div id="3" class="project-details block-element suggestions">
-          <FeatureCard 
-            :featureId="3"
-            @click.prevent="loadFeatureDetailPage"/>
-        </div>
-      </section>
-    </div>
-    <div class="project-details block-element-container development" >
-      <header>
-        <h3>Development</h3>
-      </header>
-      <section>
-        <div class="project-details block-element development">
-          <FeatureCard />
-        </div>
-      </section>
-    </div>
-    <div class="project-details block-element-container testing" >
-      <header>
-        <h3>Testing</h3>
-      </header>
-      <section >
-        <div class="project-details block-element testing">
-          <FeatureCard />
-        </div>
-      </section>
-    </div>
-    <div class="project-details block-element-container done" >
-      <header>
-          <h3>Done</h3>
-      </header>
-      <section>
-        <div class="project-details block-element done">
-          <FeatureCard />
-        </div>
-        <div class="project-details block-element done">
-          <FeatureCard />
-        </div>
-        <div class="project-details block-element done">
-          <FeatureCard />
-        </div>
-      </section>
-    </div>
-  </div>
   </main>
+  </div>
+ 
 </template>
+
 <script>
 
 import ProjectCard from './ProjectCard.vue';
-import FeatureCard from '../feature/FeatureCard.vue';
+import FeatureForm from '../feature/FeatureForm.vue';
+import FeaturesListByStatus from '../feature/FeaturesListByStatus.vue';
+import axiosProject from '../../services/project-axios';
 
 export default {
   props: {
@@ -97,46 +60,88 @@ export default {
   },
   components: {
     ProjectCard,
-    FeatureCard
+    FeatureForm,
+    FeaturesListByStatus
   },
   data() {
     return {
-
+      project: {},
+      navigation: {
+        showFeatureForm: false
+      }
     }
   },
-  inject: ['projects'],
   computed: {
-
+    isFeaturesExist() {
+      return this.project.features.length > 0;
+    },
+    isProjectEmpty () {
+      return Object.keys(this.project).length > 0;
+    },
+    onNavigationChange() {
+      return this.navigation;
+    }
   },
   methods: {
-    updatedProjectInfo() {
-      const projectId = this.$route.params.projectId;
-      const currentProject = this.projects.find(p => p.id === projectId);
-      this.project = {...currentProject};
+    async getProject() {
+      try {
+        const projectId = this.$route.params.projectId;
+        const project = await axiosProject.getProject(projectId);
+        this.project = {...project.data};
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onFeatureFormSubmit(feature) {
+      this.navigation.showFeatureForm = !this.navigation.showFeatureForm;
+      this.project.features.unshift(feature)
     },
     backToPreviusPage() {
       this.$emit('on-back')
       this.$router.back();
     },
-    loadFeatureDetailPage(e) {
-        const featureId = e.currentTarget.id;
-        this.isSelectedDetailProjectPage = true;
-        console.log(this.$route);
-        this.$router.push(`/feature/${featureId}`);
-    },
+    showFeatureForm() {
+      this.navigation.showFeatureForm = !this.navigation.showFeatureForm;
+    }
   },
   created() {
-    this.updatedProjectInfo();
+    this.getProject();
   },
   watch: {
     $route() {
-      this.updatedProjectInfo();
+      this.getProject();
     }
   }
 };
 </script>
 
 <style>
+
+.project-navigation {
+    display: flex;
+    width: 100%;
+    padding: 0.4em;
+}
+
+.project-navigation button:first-child {
+    margin-left: auto;
+}
+
+.project-navigation button {
+    border: 1px solid rgb(114, 138, 167);
+    color: rgb(114, 138, 167);
+    background: rgb(250, 246, 238);
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.project-navigation button:hover {
+    color: rgb(250, 246, 238);
+    background: rgb(114, 138, 167);
+}
+
+/* ------------------------- */
 .project-details.wrapper {
   width: 100%;
   padding: 1em;
@@ -148,7 +153,13 @@ export default {
 .project-details.header {
   width: 100%;
   padding: 2em 0;
+  margin-bottom: 2em;
   text-align: center;
+}
+
+.project-details.header h1 {
+  font-weight: bold;
+  font-size: 3em;
 }
 
 .project-details footer {
@@ -174,10 +185,26 @@ export default {
 
 }
 
+.project-details.block-element-container.info header {
+  text-align: left;
+}
+
+.project-details.block-element-container.info header span {
+  display: block;
+  width: 100%;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.project-details.block-element-container.info header span i {
+  font-size: 3em;
+}
+
 .project-details.block-element-container.info div {
   /* background: white; */
-  padding: 0.6em;
+  padding: 0 0.6em;
   border-radius: 0.4em;
+  text-align: left;
 }
 
 .project-details.block-element {

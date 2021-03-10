@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 const axiosAuth = {
+    getProject: async function (id) {
+        return await axios.get(`/project/get/${id}`);
+    },
     listProjects: async function () {
         return await axios.get('/project/list');
     },

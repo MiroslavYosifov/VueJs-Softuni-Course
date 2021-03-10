@@ -46,9 +46,9 @@ export default {
     },
     methods: {
       async onSubmit () {
-        const formData = {
-          ...this.formData,
-          authToken: this.$store.getters.getAuthToken
+        const formData = { 
+          ...this.formData, 
+          authToken: this.$store.getters.getAuthToken 
         }
         try {
             const resCreateProject = await axiosProject.createProject(formData);

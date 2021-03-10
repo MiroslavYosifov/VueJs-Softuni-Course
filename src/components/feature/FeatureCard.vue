@@ -1,18 +1,18 @@
 <template>
   <div :id="featureId">
         <section>
-          <h4>Feature name: My FeatureCard</h4>
-          <p v-if="!status">Description: The goal in this feature is fgreg5rg45gh54hg54h54h54 g54gh54hg h54h54hg54hg54 h54h54</p>
-          <p v-if="!status">Status: Researching</p>
-          <p>Suggestions: 7</p>
-          <p>Issues count: 5</p>
-          <p v-if="!status">Creator: Pesho</p>
+          <h4>Feature name: {{name}}</h4>
+          <p v-if="false">Description: {{description}}</p>
+          <p>Status: {{status}}</p>
+          <p>Suggestions: {{suggestions.length}}</p>
+          <p>Issues count: {{issues.length}}</p>
+          <p>Creator: {{creator.name}}</p>
           <p>DATE: 01.11.2021</p>
         </section>
-        <nav>
+        <!-- <nav>
           <button v-if="!status">Suggestions</button>
           <button v-if="!status">Issues</button>
-        </nav>
+        </nav> -->
   </div>
 </template>
 
@@ -21,7 +21,7 @@
 export default {
   props: {
     featureId: {
-      type: Number,
+      type: String,
       required: false,
     },
     name: {
@@ -32,13 +32,21 @@ export default {
       type: String,
       required: false,
     },
-    creator: {
+    description: {
       type: String,
       required: false,
     },
-    project: {
+    status: {
       type: String,
-      required: true
+      required: false,
+    },
+    creator: {
+      type: Object,
+      required: false,
+    },
+    project: {
+      type: Object,
+      required: false
     },
     suggestions: {
       type: Array,
@@ -51,7 +59,7 @@ export default {
   },
   data() {
     return {
-      status: true,
+      
     }
   },
   computed: {

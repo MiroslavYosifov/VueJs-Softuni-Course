@@ -1,10 +1,12 @@
 <template>
-    <div :class="[isListPage ? 'list-page' : 'detail-page']" :id="projectId">
-        <h4>Project name: {{name}}</h4>
-        <h5>Date: 20.03.2020 Creator: Pesho</h5>
-        <p v-if="!isListPage" >Description: {{description}}</p>
-        <p>Creator: {{creator}}</p>
-        <p>Features: 0</p>
+    <div :class="[isListPage ? 'list-page' : 'detail-page']" 
+         :id="projectId">
+            <h5 v-if="name" class="project-name">Project name: {{name}}</h5>
+            <p class="project-date">Created On: 20.03.2020</p>
+            <p class="project-creator">Creator: {{creator}}</p>
+            <p class="project-members">Members: {{members}}</p>
+            <p class="project-faetures">Features: {{features}}</p>
+            <p class="project-description" v-if="!isListPage">Description: {{description}}</p>
     </div>
 </template>
 
@@ -13,7 +15,7 @@ export default {
   props: {
     projectId: {
         type: String,
-        required: false,
+        required: true,
     },
     name: {
         type: String,
@@ -21,23 +23,23 @@ export default {
     },
     date: {
         type: String,
-        required: false,
+        required: true,
     },
     description: {
         type: String,
-        required: false,
+        required: true,
     },
     creator: {
         type: String,
-        required: false,
+        required: true,
     },
     members: {
-        type: Array,
-        required: false,
+        type: Number,
+        required: true,
     },
     features: {
-        type: Array,
-        required: false,
+        type: Number,
+        required: true,
     },
     isListPage: {
         type: Boolean,

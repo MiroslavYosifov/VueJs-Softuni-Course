@@ -103,6 +103,7 @@ export default {
   }
 
   .submit button {
+    margin-top: 1em;
     border: 1px solid rgb(114, 138, 167);
     color: rgb(114, 138, 167);
     background: rgb(250, 246, 238);

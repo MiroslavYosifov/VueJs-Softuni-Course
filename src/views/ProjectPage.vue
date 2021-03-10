@@ -1,7 +1,10 @@
 <template>
   <div>
     <template v-if="!isSelectedDetailProjectPage">
-      <ProjectForm  @on-project-submit="onProjectFormSubmit"/>
+      <ProjectForm @on-project-submit="onProjectFormSubmit"/>
+      <header>
+        <h1>List Projects</h1>
+      </header>
       <table class="project-list-wrapper">
         <tr>
           <th>ID</th>
@@ -14,7 +17,7 @@
         </tr>
         <tr v-for="(project, index) of getProjects" 
             :key="index"
-            :id="project.id" 
+            :id="project._id" 
             @click.prevent="loadProjectDetailPage">  
           <td>{{project._id}}</td>
           <td>{{project.name}}</td>
@@ -68,21 +71,26 @@ export default {
         },
         onBack() {
             this.isSelectedDetailProjectPage = false
+        },
+        async getListedProjects() {
+          try {
+            const projects = await axiosProject.listProjects();
+            this.projects = projects.data;
+          } catch (error) {
+            console.log(error);
+          }
         }
     },
     async created() {
-      try {
-        const projects = await axiosProject.listProjects();
-        this.projects = projects.data;
-      } catch (error) {
-        console.log(error);
-      }
+      this.getListedProjects()
     },
     mounted() {
         this.isSelectedDetailProjectPage = false;
     },
     watch: {
-       
+      $route() {
+        this.getListedProjects()
+      }
     }
 };
 </script>

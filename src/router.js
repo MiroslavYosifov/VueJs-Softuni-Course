@@ -28,12 +28,12 @@ const routes = [
         component: ProjectDetail, 
         props: true,
       },
-      { 
-        path: '/feature/:featureId', 
-        component: FeatureDetail, 
-        props: true 
-      } 
     ] 
+  },
+  { 
+    path: '/feature/:featureId', 
+    component: FeatureDetail,
+    props: true
   },
   { 
     path: '/my-profile', 
