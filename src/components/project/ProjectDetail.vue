@@ -1,20 +1,13 @@
 <template>
   <div class="project">
   <FeatureForm 
-    v-if="navigation.showFeatureForm" 
     @on-feature-submit="onFeatureFormSubmit"
   />
-
+ 
   <main v-if="isProjectEmpty" class="project-details wrapper">
-
-    <nav class="project-navigation">
-        <button @click.prevent="showFeatureForm">Add Feature</button>
-        <button>Invite Member</button>
-        <button>Edit Project</button>
-        <button>Delete Project</button>
-        <button @click.prevent="backToPreviusPage">Back</button>
-    </nav>
-
+    <ProjectNavigation
+       :projectId="project._id"
+     />
     <header class="project-details header">
        <h1>Project name: {{project.name.toUpperCase()}}</h1>
     </header>
@@ -48,6 +41,7 @@
 
 <script>
 
+import ProjectNavigation from '../project/ProjectNavigation.vue';
 import ProjectCard from './ProjectCard.vue';
 import FeatureForm from '../feature/FeatureForm.vue';
 import FeaturesListByStatus from '../feature/FeaturesListByStatus.vue';
@@ -58,6 +52,7 @@ export default {
 
   },
   components: {
+    ProjectNavigation,
     ProjectCard,
     FeatureForm,
     FeaturesListByStatus
@@ -65,9 +60,6 @@ export default {
   data() {
     return {
       project: {},
-      navigation: {
-        showFeatureForm: false
-      }
     }
   },
   computed: {
@@ -76,9 +68,6 @@ export default {
     },
     isProjectEmpty () {
       return Object.keys(this.project).length > 0;
-    },
-    onNavigationChange() {
-      return this.navigation;
     }
   },
   methods: {
@@ -92,14 +81,7 @@ export default {
       }
     },
     onFeatureFormSubmit(feature) {
-      this.navigation.showFeatureForm = !this.navigation.showFeatureForm;
       this.project.features.unshift(feature)
-    },
-    backToPreviusPage() {
-      this.$router.replace('/projects');
-    },
-    showFeatureForm() {
-      this.navigation.showFeatureForm = !this.navigation.showFeatureForm;
     }
   },
   created() {
@@ -120,31 +102,6 @@ export default {
   margin: 0 auto;
 }
 
-.project-navigation {
-    display: flex;
-    width: 100%;
-    padding: 0.4em;
-}
-
-.project-navigation button:first-child {
-    margin-left: auto;
-}
-
-.project-navigation button {
-    border: 1px solid rgb(114, 138, 167);
-    color: rgb(114, 138, 167);
-    background: rgb(250, 246, 238);
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.project-navigation button:hover {
-    color: rgb(250, 246, 238);
-    background: rgb(114, 138, 167);
-}
-
-/* ------------------------- */
 .project-details.wrapper {
   width: 100%;
   padding: 1em;

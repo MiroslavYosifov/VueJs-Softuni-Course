@@ -1,6 +1,5 @@
 <template>
-    <div id="project">
-        <div class="project-form ">
+        <div class="issue-form ">
             <header>
               <h4>Add issues</h4>
             </header>
@@ -20,23 +19,12 @@
                         name="description"
                         v-model="formData.description"></textarea>
                 </div>
-                <div>
-                    <label for="status">Status</label>
-                    <select 
-                      name="status" 
-                      id="status" 
-                      v-model="formData.status">
-                        <option >denied</option>
-                        <option >accepted</option>
-                        <option >completed</option>
-                    </select>
-                </div>
                 <div class="submit">
                   <button type="submit">Submit</button>
+                  <button @click.prevent="hideIssueForm">Cancel</button>
                 </div>
             </form>
         </div>
-  </div>
 </template>
 
 <script>
@@ -48,8 +36,7 @@ export default {
       return {
         formData: {
             name: "",
-            description: "",
-            status: "",
+            description: ""
         }
       }
     },
@@ -65,27 +52,32 @@ export default {
           featureId: featureId,
         }
 
-        console.log('FORM ID', formData);
         try {
             const resIssue = await issueAxios.createIssue(formData);
+            this.$store.dispatch('showHideIssueForm');
             this.$emit('on-issue-submit', resIssue.data);
         } catch (error) {
             console.log(error);
         }
       },
+      hideIssueForm () {
+        this.$store.dispatch('showHideIssueForm');
+      }
     },
     
 };
 </script>
 
 <style>
-  .project-form {
+  .issue-form {
+    position: absolute;
     width: 30em;
     padding: 1.4em;
-    margin-left: 2px;
-    margin-bottom: 2em;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
     border: 1px solid #eee;
     box-shadow: 0 2px 3px #ccc;
+    background: white;
   }
 
   textarea {

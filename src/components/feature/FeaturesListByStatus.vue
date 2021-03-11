@@ -8,23 +8,25 @@
       <section>
         <template v-if="getFeaturesByStatus('suggestion')">
           <template v-for="feature of project.features">
-           <div 
-              id="1"
-              :key="feature._id"
-              v-if="feature.status === 'suggestion'"
-              class="feature-element suggestions"
-              @click.prevent="loadFeatureDetailPage(feature._id)">
-                <FeatureCard 
-                  :featureId="feature._id"
-                  :name="feature.name"
-                  :date="feature.date"
-                  :status="feature.status"
-                  :creator="feature.creator"
-                  :project="project"
-                  :suggestions="feature.suggestions"
-                  :issues="feature.issues"
-              />
-            </div>
+            <div class="feature-element-wrapper" 
+                :key="feature._id"
+                v-if="feature.status === 'suggestion'">
+              <div class="ropes"></div>
+              <div 
+                class="feature-element suggestions"
+                @click.prevent="loadFeatureDetailPage(feature._id)">
+                  <FeatureCard 
+                    :featureId="feature._id"
+                    :name="feature.name"
+                    :date="feature.date"
+                    :status="feature.status"
+                    :creator="feature.creator"
+                    :project="project"
+                    :suggestions="feature.suggestions"
+                    :issues="feature.issues"
+                />
+              </div>
+           </div>
           </template>
         </template>
         <template  v-else>
@@ -40,23 +42,25 @@
       <section>
         <template v-if="getFeaturesByStatus('development')">
           <template v-for="feature of project.features">
-           <div 
-              id="1"
-              :key="feature._id"
-              v-if="feature.status === 'development'"
-              class="feature-element development"
-              @click.prevent="loadFeatureDetailPage(feature._id)">
-                <FeatureCard 
-                  :featureId="feature._id"
-                  :name="feature.name"
-                  :date="feature.date"
-                  :status="feature.status"
-                  :creator="feature.creator"
-                  :project="project"
-                  :suggestions="feature.suggestions"
-                  :issues="feature.issues"
-              />
-            </div>
+            <div class="feature-element-wrapper" 
+                :key="feature._id"
+                v-if="feature.status === 'development'">
+              <div class="ropes"></div>
+              <div 
+                class="feature-element development"
+                @click.prevent="loadFeatureDetailPage(feature._id)">
+                  <FeatureCard 
+                    :featureId="feature._id"
+                    :name="feature.name"
+                    :date="feature.date"
+                    :status="feature.status"
+                    :creator="feature.creator"
+                    :project="project"
+                    :suggestions="feature.suggestions"
+                    :issues="feature.issues"
+                />
+              </div>
+           </div>
           </template>
         </template>
         <template  v-else>
@@ -72,23 +76,25 @@
       <section>
         <template v-if="getFeaturesByStatus('testing')">
           <template v-for="feature of project.features">
-           <div 
-              id="1"
-              :key="feature._id"
-              v-if="feature.status === 'testing'"
-              class="feature-element testing"
-              @click.prevent="loadFeatureDetailPage(feature._id)">
-                <FeatureCard 
-                  :featureId="feature._id"
-                  :name="feature.name"
-                  :date="feature.date"
-                  :status="feature.status"
-                  :creator="feature.creator"
-                  :project="project"
-                  :suggestions="feature.suggestions"
-                  :issues="feature.issues"
-              />
-            </div>
+            <div class="feature-element-wrapper" 
+                :key="feature._id"
+                v-if="feature.status === 'testing'">
+              <div class="ropes"></div>
+              <div 
+                class="feature-element testing"
+                @click.prevent="loadFeatureDetailPage(feature._id)">
+                  <FeatureCard 
+                    :featureId="feature._id"
+                    :name="feature.name"
+                    :date="feature.date"
+                    :status="feature.status"
+                    :creator="feature.creator"
+                    :project="project"
+                    :suggestions="feature.suggestions"
+                    :issues="feature.issues"
+                />
+              </div>
+           </div>
           </template>
         </template>
         <template  v-else>
@@ -104,23 +110,25 @@
         <section>
         <template v-if="getFeaturesByStatus('done')">
           <template v-for="feature of project.features">
-           <div 
-              id="1"
-              :key="feature._id"
-              v-if="feature.status === 'done'"
-              class="feature-element done"
-              @click.prevent="loadFeatureDetailPage(feature._id)">
-                <FeatureCard 
-                  :featureId="feature._id"
-                  :name="feature.name"
-                  :date="feature.date"
-                  :status="feature.status"
-                  :creator="feature.creator"
-                  :project="project"
-                  :suggestions="feature.suggestions"
-                  :issues="feature.issues"
-              />
-            </div>
+           <div class="feature-element-wrapper" 
+                :key="feature._id"
+                v-if="feature.status === 'done'">
+              <div class="ropes"></div>
+              <div 
+                class="feature-element done"
+                @click.prevent="loadFeatureDetailPage(feature._id)">
+                  <FeatureCard 
+                    :featureId="feature._id"
+                    :name="feature.name"
+                    :date="feature.date"
+                    :status="feature.status"
+                    :creator="feature.creator"
+                    :project="project"
+                    :suggestions="feature.suggestions"
+                    :issues="feature.issues"
+                />
+              </div>
+           </div>
           </template>
         </template>
         <template  v-else>
@@ -169,11 +177,13 @@ export default {
 .feature-element-container {
   text-align: center;
   width: 25%;
-  padding: 0.4em;
+  padding: 0.8em;
 }
 
 .feature-element-container header {
   padding: 1em;
+  border-bottom: 2px solid rgb(172, 183, 197);
+  margin-bottom: 0.1em;
 }
 
 .feature-element-container header span {
@@ -197,14 +207,23 @@ export default {
   border: 1px solid rgb(154, 167, 184);
   padding: 0.6em 0.2em;
   color: rgb(109, 125, 145);
-  margin-bottom: 0.4em;
   border-radius: 0.1em;
+}
+
+.ropes {
+  margin: 0 auto;
+  width: 60%;
+  height: 2em;
+  border-left: 3px dotted rgb(172, 183, 197);
+  border-right: 3px dotted rgb(172, 183, 197);
 }
 
 .feature-element:hover {
   cursor: pointer;
   transform: scale(1.005);
 }
+
+
 </style>
 
 

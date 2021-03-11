@@ -11,6 +11,9 @@ const axiosAuth = {
         console.log(formData);
         return await axios.post('/project/add', formData);
     },
+    deleteProject: async function (id) {
+        return await axios.delete(`/project/delete/${id}`);
+    },
 }
 
 export default axiosAuth;

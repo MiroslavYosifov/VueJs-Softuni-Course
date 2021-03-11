@@ -81,34 +81,34 @@ export default {
 
 .site-header.navigation ul li a {
     display: block;
-    color: rgb(114, 138, 167);
+    color: rgb(133, 133, 133);
     padding: 0.4em;
     font-size: 1.2em;
 }
 
 .site-header.navigation ul li .router-link-active {
-    background: rgb(154, 167, 184);
+    background: rgb(153, 153, 153);
     color: rgb(255, 255, 255);
 }
 
 .site-header.navigation ul li a:hover {
-    background: rgb(154, 167, 184);
+    background: rgb(133, 133, 133);
     color: rgb(255, 255, 255);
 }
 
 .logout {
-  padding: 0.6em;
+  padding: 0.4em;
   height: 100%;
   font-size: 1.3em;
   display: block;
   background: transparent;
-  color: rgb(154, 167, 184);
+  color: rgb(133, 133, 133);
   border: none;
   cursor: pointer;
 }
 
 .logout:hover {
-  background: rgb(154, 167, 184);
+  background: rgb(133, 133, 133);
   color: rgb(255, 255, 255);
 }
 

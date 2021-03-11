@@ -73,11 +73,13 @@ export default {
             this.projects.unshift(createdProject);
         },
         async getListedProjects() {
+          
           if(this.$route.path === "/projects") {
             this.isSelectedDetailProjectPage = false;
           } else {
             this.isSelectedDetailProjectPage = true;
           }
+
           try {
             const projects = await axiosProject.listProjects();
             this.projects = projects.data;

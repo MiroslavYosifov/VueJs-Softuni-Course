@@ -20,18 +20,6 @@
                         name="description"
                         v-model="formData.description"></textarea>
                 </div>
-                <div>
-                    <label for="status">Status</label>
-                    <select 
-                      name="status" 
-                      id="status" 
-                      v-model="formData.status">
-                        <option >suggestion</option>
-                        <option >development</option>
-                        <option >testing</option>
-                        <option >done</option>
-                    </select>
-                </div>
                 <div class="submit">
                   <button type="submit">Submit</button>
                 </div>
@@ -49,8 +37,7 @@ export default {
       return {
         formData: {
             name: "",
-            description: "",
-            status: "",
+            description: ""
         }
       }
     },

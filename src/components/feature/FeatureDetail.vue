@@ -1,23 +1,25 @@
 <template>
 <div class="feature">
-  <!-- <div>
-    <IssueForm @on-issue-submit="onIssueFormSubmit"/>
+
+  <div class="issue-form-wrapper"
+    v-if="isShowedIssueAddForm">
+      <IssueForm @on-issue-submit="onIssueFormSubmit"/>
   </div>
-  <div>
-    <SuggestionForm @on-suggestion-submit="onSuggestionFormSubmit"/>
-  </div> -->
-  <nav class="feature-navigation">
-      <button>Add Suggestion</button>
-      <button>Add Issue</button>
-      <button>Edit Feature</button>
-      <button>Delete Feature</button>
-      <button @click.prevent="backToPreviusPage">Back</button>
-    </nav>
+
+  <div class="suggestion-form-wrapper"
+    v-if="isShowedSuggestionAddForm">
+      <SuggestionForm @on-suggestion-submit="onSuggestionFormSubmit"/>
+  </div>
+
+  <template v-if="isFeatureEmpty">
+    <FeatureNavigation 
+        :featureId="feature._id" 
+        />
+  </template>
+
   <div class="feature-content">
-    
     <div class="feature-block">
       <header>
-        <!-- <span><i class="fas fa-info-circle"></i></span> -->
         <h2>Feature Info</h2>
       </header>
       <div v-if="isFeatureEmpty" class="feature-card">
@@ -38,20 +40,19 @@
         <span><i class="fas fa-lightbulb"></i></span>
         <h2>Suggestions</h2>
       </header>
-      <div class="feature-suggestions" v-for="issue of feature.suggestions" :key="issue._id">
+      <div class="feature-suggestions" v-for="suggestion of feature.suggestions" :key="suggestion._id">
         <SuggestionCard
-          :issueId="issue._id"
-          :name="issue.name"
-          :date="issue.date"
-          :description="issue.description"
-          :status="issue.status"
-          :creator="issue.creator"
+          :suggestionId="suggestion._id"
+          :name="suggestion.name"
+          :date="suggestion.date"
+          :description="suggestion.description"
+          :status="suggestion.status"
+          :creator="suggestion.creator"
         />
-        <nav>
-          <button class="accept">Accept</button>
-          <button class="decline">Decline</button>
-          <button class="edit">Edit</button>
-        </nav>
+        <SuggestionNavigation
+          :suggestionId="suggestion._id"
+          @on-suggestion-delete="onElementDelete"
+        />
       </div>
     </div>
     <div class="feature-block">
@@ -68,11 +69,10 @@
           :status="issue.status"
           :creator="issue.creator"
         />
-        <nav>
-          <button class="accept">Accept</button>
-          <button class="decline">Decline</button>
-          <button class="edit">Edit</button>
-        </nav>
+        <IssueNavigation
+          :issueId="issue._id"
+          @on-issue-delete="onElementDelete"
+        />
       </div>
     </div>
   </div>
@@ -81,11 +81,16 @@
 
 <script>
 
+import FeatureNavigation from './FeatureNavigation';
 import FeatureCard from './FeatureCard.vue';
 import IssueCard from '../issue/IssueCard.vue';
-// import IssueForm from '../issue/IssueForm.vue';
 import SuggestionCard from '../suggestion/SuggestionCard.vue';
-// import SuggestionForm from '../suggestion/SuggestionForm.vue';
+
+import IssueNavigation from '../issue/IssueNavigation.vue';
+import SuggestionNavigation from '../suggestion/SuggestionNavigation.vue';
+
+import IssueForm from '../issue/IssueForm.vue';
+import SuggestionForm from '../suggestion/SuggestionForm.vue';
 
 import featureAxios from '../../services/feature-axios';
 
@@ -99,11 +104,14 @@ export default {
     }
   },
   components: {
+    FeatureNavigation,
     FeatureCard,
-    // IssueForm,
     SuggestionCard,
-    // SuggestionForm,
-    IssueCard
+    IssueCard,
+    IssueNavigation,
+    SuggestionNavigation,
+    IssueForm,
+    SuggestionForm,
   },
   computed: {
     getIssues() {
@@ -114,6 +122,12 @@ export default {
     },
     isFeatureEmpty() {
       return Object.keys(this.feature).length > 0;
+    },
+    isShowedIssueAddForm () {
+      return this.$store.getters.issueInfo.isShowedIssueAddForm;
+    },
+    isShowedSuggestionAddForm () {
+      return this.$store.getters.suggestionInfo.isShowedSuggestionAddForm;
     }
   },
   methods: {
@@ -123,8 +137,13 @@ export default {
     onSuggestionFormSubmit(suggestion) {
       this.feature.suggestions.unshift(suggestion);
     },
-    backToPreviusPage() {
-      this.$router.back();
+    onElementDelete(value) {
+      if(value.type === "issue") {
+        this.feature.issues = this.feature.issues.filter(f => f._id !== value.issueId);
+      }
+      if(value.type === "suggestion") {
+        this.feature.suggestions = this.feature.suggestions.filter(s => s._id !== value.suggestionId);
+      }
     }
   },
   async mounted() {
@@ -142,37 +161,22 @@ export default {
 <style>
 
 .feature {
+  position: relative;
   width: 90%;
   margin: 0 auto;
   padding: 2em;
   background: rgb(250, 246, 238);
 }
 
-.feature-navigation {
-    display: flex;
-    width: 100%;
-    padding: 1em;
+.issue-form-wrapper,
+.suggestion-form-wrapper {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background:rgba(0, 0, 0, 0.1);
+  top: 0; left: 0;
 }
 
-.feature-navigation button:first-child {
-    margin-left: auto;
-}
-
-.feature-navigation button {
-    border: 1px solid rgb(114, 138, 167);
-    color: rgb(114, 138, 167);
-    background: rgb(250, 246, 238);
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.feature-navigation button:hover {
-    color: rgb(250, 246, 238);
-    background: rgb(114, 138, 167);
-}
-
-/* ----------------------------------- */
 .feature-content {
   margin-top: 2em;
   display: flex;
@@ -210,33 +214,6 @@ export default {
   border-radius: 0.1em;
 }
 
-.feature-suggestions nav  ,
-.feature-issues nav {
-  display: flex;
-}
-
-.accept,
-.decline,
-.edit {
-  padding: 0.4em 1em;
-  border: none;
-  cursor: pointer;
-  margin-left: 0.4em;
-  color: white;
-}
-
-.accept {
-  margin-left: auto;
-  background: rgb(164, 187, 128);
-}
-
-.decline {
-  background: rgb(221, 91, 91);
-}
-
-.edit {
- background: rgb(99, 139, 214);
-}
 
 .feature-suggestions {
 
