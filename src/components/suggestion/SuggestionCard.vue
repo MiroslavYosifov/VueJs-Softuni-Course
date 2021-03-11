@@ -6,8 +6,8 @@
       <p>Status: {{status}}</p>
       <p>Description: {{description}}</p>
       <p>Creator: {{creator.name}}</p>
-      <p>Project: {{project.name}}</p>
-      <p>Feature: {{feature.name}}</p>
+      <p v-if="project">Project: {{project.name}}</p>
+      <p v-if="feature">Feature: {{feature.name}}</p>
     </section>
   </div>
 

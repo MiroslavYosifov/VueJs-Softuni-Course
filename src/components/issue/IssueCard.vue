@@ -1,13 +1,13 @@
 <template>
   <div :id="issueId">
-    <section>
+    <section class="issue">
       <h4>Title: {{name}}</h4>
       <p>Created On: {{date}}</p>
       <p>Status: {{status}}</p>
       <p>Description: {{description}}</p>
       <p>Creator: {{creator.name}}</p>
-      <p>Project: {{project.name}}</p>
-      <p>Feature: {{feature.name}}</p>
+      <p v-if="project">Project: {{project.name}}</p>
+      <p v-if="feature">Feature: {{feature.name}}</p>
     </section>
   </div>
 
@@ -59,5 +59,7 @@ export default {
 </script>
 
 <style>
-
+.issue {
+ 
+}
 </style>

@@ -1,6 +1,5 @@
 <template>
-  <div>
-
+  <div class="project">
   <FeatureForm 
     v-if="navigation.showFeatureForm" 
     @on-feature-submit="onFeatureFormSubmit"
@@ -97,8 +96,7 @@ export default {
       this.project.features.unshift(feature)
     },
     backToPreviusPage() {
-      this.$emit('on-back')
-      this.$router.back();
+      this.$router.replace('/projects');
     },
     showFeatureForm() {
       this.navigation.showFeatureForm = !this.navigation.showFeatureForm;
@@ -116,6 +114,11 @@ export default {
 </script>
 
 <style>
+
+.project {
+  width: 90%;
+  margin: 0 auto;
+}
 
 .project-navigation {
     display: flex;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="!isSelectedDetailProjectPage">
+    <template v-if="!checkIfSelectedDetailProjectPage">
       <ProjectForm @on-project-submit="onProjectFormSubmit"/>
       <header>
         <h1>List Projects</h1>
@@ -29,7 +29,7 @@
         </tr>
       </table>
     </template>
-    <router-view :on-back="onBack" @on-back="onBack"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -58,6 +58,9 @@ export default {
     computed: {
       getProjects() {
         return this.projects;
+      },
+      checkIfSelectedDetailProjectPage() {
+        return this.isSelectedDetailProjectPage
       }
     },
     methods: {
@@ -69,10 +72,12 @@ export default {
         onProjectFormSubmit(createdProject) {
             this.projects.unshift(createdProject);
         },
-        onBack() {
-            this.isSelectedDetailProjectPage = false
-        },
         async getListedProjects() {
+          if(this.$route.path === "/projects") {
+            this.isSelectedDetailProjectPage = false;
+          } else {
+            this.isSelectedDetailProjectPage = true;
+          }
           try {
             const projects = await axiosProject.listProjects();
             this.projects = projects.data;
@@ -83,9 +88,6 @@ export default {
     },
     async created() {
       this.getListedProjects()
-    },
-    mounted() {
-        this.isSelectedDetailProjectPage = false;
     },
     watch: {
       $route() {

@@ -1,13 +1,13 @@
 <template>
   <div :id="featureId">
         <section>
-          <h4>Feature name: {{name}}</h4>
-          <p v-if="false">Description: {{description}}</p>
+          <h4>Feature: {{name}}</h4>
           <p>Status: {{status}}</p>
-          <p>Suggestions: {{suggestions.length}}</p>
-          <p>Issues count: {{issues.length}}</p>
+          <p>Created on: 01.11.2021</p>
           <p>Creator: {{creator.name}}</p>
-          <p>DATE: 01.11.2021</p>
+          <p v-if="description">Description: {{description}}</p>
+          <p>Suggestions: {{suggestions.length}}</p>
+          <p>Issues: {{issues.length}}</p>
         </section>
         <!-- <nav>
           <button v-if="!status">Suggestions</button>
@@ -15,7 +15,6 @@
         </nav> -->
   </div>
 </template>
-
 <script>
 
 export default {
