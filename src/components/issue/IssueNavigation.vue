@@ -1,9 +1,20 @@
 <template>
     <nav class="issue-nav">
-        <button class="accept">Accept</button>
-        <button @click="deleteIssue" class="decline">Decline</button>
-        <button class="edit">Edit</button>
-        <button @click="deleteIssue" class="decline">Delete</button>
+        <button></button>
+        <button 
+            class="accept" 
+            data-status="accept"
+            v-if="status === 'waiting for approval'" 
+            @click.prevent="changeIssueStatus">Accept</button>
+        <button 
+            class="decline"
+            v-if="status != 'fixed'" 
+            @click="deleteIssue">Decline</button>
+        <button 
+            class="fixed"
+            data-status="fixed"
+            v-if="status != 'fixed'" 
+            @click.prevent="changeIssueStatus">Fixed</button>
     </nav>
 </template>
 
@@ -14,6 +25,10 @@ import axiosIssue from '../../services/issue-axios';
 export default {
     props: {
         issueId: {
+            type: String,
+            required: true,
+        },
+        status: {
             type: String,
             required: true,
         }
@@ -35,6 +50,19 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        async changeIssueStatus (e) {
+            const status = e.currentTarget.dataset.status;
+            const data = {
+                status: status
+            }
+            try {
+                const resUpdatedIssue = await axiosIssue.changeIssueStatus(this.issueId, data);
+                const emitInfo = { ...resUpdatedIssue.data, type: 'issue' };
+                this.$emit('on-issue-update-status', emitInfo);
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 };
@@ -42,14 +70,19 @@ export default {
 
 <style>
 
-.issue-nav ,
 .issue-nav{
   display: flex;
 }
 
+.issue-nav button:first-child {
+    background: none;
+    border: none;
+    margin-left: auto;
+}
+
 .accept,
 .decline,
-.edit {
+.fixed {
   padding: 0.4em 1em;
   border: none;
   cursor: pointer;
@@ -66,8 +99,8 @@ export default {
   background: rgb(221, 91, 91);
 }
 
-.edit {
- background: rgb(99, 139, 214);
+.fixed {
+ background: rgb(184, 140, 176);
 }
 
 </style>

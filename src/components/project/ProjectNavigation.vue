@@ -1,7 +1,7 @@
 <template>
     <nav class="project-navigation">
-        <button>Add Feature</button>
-        <button>Invite Member</button>
+        <button @click="showProjectForm">Add Feature</button>
+        <button>Join to Project</button>
         <button>Edit Project</button>
         <button @click="deleteProject">Delete Project</button>
         <button @click.prevent="backToPreviusPage">Back</button>
@@ -36,6 +36,9 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        showProjectForm () {
+            this.$store.dispatch('showHideFeatureForm');
         },
         backToPreviusPage() {
             this.$router.back();

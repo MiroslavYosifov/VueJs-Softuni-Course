@@ -54,12 +54,12 @@ export default {
 <style>
 .site-header {
     position: fixed;
+    z-index: 99999;
     top: 0; left: 0;
     width: 100%;
     /* background: rgb(154, 167, 184); */
     padding: 0 2em;
     background: white;
-    border-bottom: 1px solid #eee;
     box-shadow: 0 2px 3px #ccc;
 }
 

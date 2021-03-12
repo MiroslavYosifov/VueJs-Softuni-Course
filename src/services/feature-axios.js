@@ -10,6 +10,10 @@ const axiosAuth = {
     createFeature: async function (formData) {
         return await axios.post('/feature/add', formData);
     },
+    changeFeatureStatus: async function (id, data) {
+        console.log(data);
+        return await axios.put(`/feature/updatestatus/${id}`, data);
+    },
     deleteFeature: async function (id) {
         return await axios.delete(`/feature/delete/${id}`);
     }, 

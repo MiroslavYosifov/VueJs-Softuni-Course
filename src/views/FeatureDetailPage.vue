@@ -51,7 +51,9 @@
         />
         <SuggestionNavigation
           :suggestionId="suggestion._id"
+          :status="suggestion.status"
           @on-suggestion-delete="onElementDelete"
+          @on-suggestion-update-status="onElementUpdateStatus"
         />
       </div>
     </div>
@@ -71,7 +73,9 @@
         />
         <IssueNavigation
           :issueId="issue._id"
+          :status="issue.status"
           @on-issue-delete="onElementDelete"
+          @on-issue-update-status="onElementUpdateStatus"
         />
       </div>
     </div>
@@ -81,18 +85,18 @@
 
 <script>
 
-import FeatureNavigation from './FeatureNavigation';
-import FeatureCard from './FeatureCard.vue';
-import IssueCard from '../issue/IssueCard.vue';
-import SuggestionCard from '../suggestion/SuggestionCard.vue';
+import FeatureCard from '../components/feature/FeatureCard.vue';
+import FeatureNavigation from '../components/feature/FeatureNavigation.vue';
 
-import IssueNavigation from '../issue/IssueNavigation.vue';
-import SuggestionNavigation from '../suggestion/SuggestionNavigation.vue';
+import SuggestionCard from '../components/suggestion/SuggestionCard.vue';
+import SuggestionForm from '../components/suggestion/SuggestionForm.vue';
+import SuggestionNavigation from '../components/suggestion/SuggestionNavigation.vue';
 
-import IssueForm from '../issue/IssueForm.vue';
-import SuggestionForm from '../suggestion/SuggestionForm.vue';
+import IssueCard from '../components/issue/IssueCard.vue';
+import IssueForm from '../components/issue/IssueForm.vue';
+import IssueNavigation from '../components/issue/IssueNavigation.vue';
 
-import featureAxios from '../../services/feature-axios';
+import featureAxios from '../services/feature-axios';
 
 export default {
   props: {
@@ -104,14 +108,14 @@ export default {
     }
   },
   components: {
-    FeatureNavigation,
     FeatureCard,
-    SuggestionCard,
+    FeatureNavigation,
     IssueCard,
-    IssueNavigation,
-    SuggestionNavigation,
     IssueForm,
+    IssueNavigation,
+    SuggestionCard,
     SuggestionForm,
+    SuggestionNavigation,
   },
   computed: {
     getIssues() {
@@ -144,12 +148,31 @@ export default {
       if(value.type === "suggestion") {
         this.feature.suggestions = this.feature.suggestions.filter(s => s._id !== value.suggestionId);
       }
+    },
+    onElementUpdateStatus(value) {
+      if(value.type === "issue") {
+        this.feature.issues = this.feature.issues.map(e => {
+          if(e._id === value.issueId) {
+            e.status = value.status;
+          }
+          return e;
+        })
+      }
+      if(value.type === "suggestion") {
+        this.feature.suggestions = this.feature.suggestions.map(e => {
+          if(e._id === value.suggestionId) {
+            e.status = value.status;
+          }
+          return e;
+        });
+      }
     }
   },
   async mounted() {
     const featureId = this.$route.params.featureId;
     try {
       const resFeature = await featureAxios.getFeature(featureId);
+      console.log(resFeature.data);
       this.feature = resFeature.data;
     } catch (error) {
       console.log(error);
@@ -162,9 +185,9 @@ export default {
 
 .feature {
   position: relative;
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
-  padding: 2em;
+  padding: 0;
   background: rgb(250, 246, 238);
 }
 
@@ -187,7 +210,7 @@ export default {
 }
 
 .feature-block:first-child {
-  width: 20%;
+  width: 30%;
 }
 
 .feature-block:first-child  header {
@@ -195,7 +218,7 @@ export default {
 }
 
 .feature-block {
-  width: 40%;
+  width: 35%;
   margin: 0 1em;
 }
 

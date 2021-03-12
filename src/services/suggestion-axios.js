@@ -10,6 +10,9 @@ const axiosSuggestion = {
     createSuggestion: async function (formData) {
         return await axios.post('/suggestion/add', formData);
     },
+    changeSuggestionStatus: async function (id, data) {
+        return await axios.put(`/suggestion/updatestatus/${id}`, data);
+    },
     deleteSuggestion: async function (id) {
         return await axios.delete(`/suggestion/delete/${id}`);
     },

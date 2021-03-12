@@ -1,6 +1,5 @@
 <template>
-    <div class="project" id="project">
-        <div class="project-form ">
+        <div class="feature-form ">
             <header>
               <h4>Add new Feature</h4>
             </header>
@@ -18,14 +17,15 @@
                   <textarea
                         id="description"
                         name="description"
+                        rows="6"
                         v-model="formData.description"></textarea>
                 </div>
                 <div class="submit">
                   <button type="submit">Submit</button>
+                  <button @click.prevent="hideFeatureForm">Cancel</button>
                 </div>
             </form>
         </div>
-  </div>
 </template>
 
 <script>
@@ -56,31 +56,27 @@ export default {
 
         try {
             const resFeature = await axiosFeature.createFeature(formData);
+            this.$store.dispatch('showHideFeatureForm');
             this.$emit('on-feature-submit', resFeature.data);
         } catch (error) {
             console.log(error);
         }
       },
+      hideFeatureForm () {
+        this.$store.dispatch('showHideFeatureForm');
+      }
     }
 };
 </script>
 
 <style>
-    /* .project {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        top: 0; left: 0;
-        background: rgba(0, 0, 0, 0.2)
-    } */
-
-    .project-form {
-        /* position: absolute;
-        background: white;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%); */
+    .feature-form {
+        position: absolute;
         width: 30em;
         padding: 1.4em;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
         border: 1px solid #eee;
         box-shadow: 0 2px 3px #ccc;
     }

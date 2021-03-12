@@ -6,6 +6,8 @@ Vue.use(Vuex);
 import auth from './modules/auth';
 import issue from './modules/issue';
 import suggestion from './modules/suggestion';
+import feature from './modules/feature';
+import sidebar from './modules/sidebar';
 
 export const store = new Vuex.Store({
     state: {
@@ -22,7 +24,9 @@ export const store = new Vuex.Store({
     },
     modules: {
         auth,
+        feature,
         issue,
-        suggestion
+        suggestion,
+        sidebar
     }
 });

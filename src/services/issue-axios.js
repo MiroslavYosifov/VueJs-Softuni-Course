@@ -10,6 +10,9 @@ const issueAxios = {
     createIssue: async function (formData) {
         return await axios.post('/issue/add', formData);
     },
+    changeIssueStatus: async function (id, data) {
+        return await axios.put(`/issue/updatestatus/${id}`, data);
+    },
     deleteIssue: async function (id) {
         return await axios.delete(`/issue/delete/${id}`);
     },

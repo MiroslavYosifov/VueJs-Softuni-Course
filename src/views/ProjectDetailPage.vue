@@ -1,8 +1,12 @@
 <template>
   <div class="project">
-  <FeatureForm 
-    @on-feature-submit="onFeatureFormSubmit"
-  />
+    
+  <div class="feature-form-wrapper" 
+      v-if="isShowedFeatureAddForm">
+     <FeatureForm 
+      @on-feature-submit="onFeatureFormSubmit"
+    />
+  </div>
  
   <main v-if="isProjectEmpty" class="project-details wrapper">
     <ProjectNavigation
@@ -41,11 +45,11 @@
 
 <script>
 
-import ProjectNavigation from '../project/ProjectNavigation.vue';
-import ProjectCard from './ProjectCard.vue';
-import FeatureForm from '../feature/FeatureForm.vue';
-import FeaturesListByStatus from '../feature/FeaturesListByStatus.vue';
-import axiosProject from '../../services/project-axios';
+import ProjectNavigation from '../components/project/ProjectNavigation.vue';
+import ProjectCard from '../components/project/ProjectCard.vue';
+import FeatureForm from '../components/feature/FeatureForm.vue';
+import FeaturesListByStatus from '../components/feature/FeaturesListByStatus.vue';
+import axiosProject from '../services/project-axios';
 
 export default {
   props: {
@@ -68,7 +72,10 @@ export default {
     },
     isProjectEmpty () {
       return Object.keys(this.project).length > 0;
-    }
+    },
+    isShowedFeatureAddForm () {
+      return this.$store.getters.featureInfo.isShowedFeatureAddForm;
+    },
   },
   methods: {
     async getProject() {
@@ -98,8 +105,16 @@ export default {
 <style>
 
 .project {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
+}
+
+.feature-form-wrapper {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background:rgba(0, 0, 0, 0.1);
+  top: 0; left: 0;
 }
 
 .project-details.wrapper {

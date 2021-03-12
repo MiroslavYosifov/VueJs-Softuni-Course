@@ -2,7 +2,10 @@
         <nav class="feature-navigation">
             <button @click.prevent="showSuggestionForm">Add Suggestion</button>
             <button @click.prevent="showIssueForm">Add Issue</button>
-            <button>Edit Feature</button>
+            <button id="suggestion" @click.prevent="changeFeatureStatus">Send for Suggestions</button>
+            <button id="development" @click.prevent="changeFeatureStatus">Send for Development</button>
+            <button id="testing" @click.prevent="changeFeatureStatus">Send for Testing</button>
+            <button id="done" @click.prevent="changeFeatureStatus">Done</button>
             <button @click.prevent="deleteFeature" >Delete Feature</button>
             <button @click.prevent="backToPreviusPage">Back</button>
         </nav>
@@ -33,6 +36,18 @@ export default {
                 const resDeletedFeature = await axiosFeature.deleteFeature(this.featureId);
                 console.log(resDeletedFeature);
                 // const emitInfo = { ...resDeletedFeature.data, type: 'suggestion' };
+                this.$router.back();
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async changeFeatureStatus(e) {
+            const status = e.currentTarget.id;
+            const data = { status: status };
+
+            try {
+                const resUpdatedFeature = await axiosFeature.changeFeatureStatus(this.featureId, data);
+                console.log(resUpdatedFeature);
                 this.$router.back();
             } catch (error) {
                 console.log(error);

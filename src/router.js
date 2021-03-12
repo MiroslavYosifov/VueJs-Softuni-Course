@@ -8,8 +8,8 @@ Vue.use(VueRouter);
 import About from './views/About.vue';
 import Contact from './views/Contact.vue';
 import ProjectPage from './views/ProjectPage.vue';
-import ProjectDetail from './components/project/ProjectDetail.vue';
-import FeatureDetail from './components/feature/FeatureDetail.vue';
+import ProjectDetailPage from './views/ProjectDetailPage.vue';
+import FeatureDetailPage from './views/FeatureDetailPage.vue';
 import MyProfile from './views/MyProfile.vue';
 import SigninForm from './components/auth/SigninForm.vue';
 import SignupForm from './components/auth/SignupForm.vue';
@@ -25,14 +25,14 @@ const routes = [
     children: [ 
       { 
         path: ':projectId', 
-        component: ProjectDetail, 
+        component: ProjectDetailPage, 
         props: true,
       },
     ] 
   },
   { 
     path: '/feature/:featureId', 
-    component: FeatureDetail,
+    component: FeatureDetailPage,
     props: true
   },
   { 
@@ -40,7 +40,7 @@ const routes = [
     component: MyProfile,
     beforeEnter(to, from, next) {
       console.log('Pytiq', store.state);
-      if(store.state.authToken) {
+      if(store.state.auth.authToken) {
         next();
       } else {
         next('/signin');

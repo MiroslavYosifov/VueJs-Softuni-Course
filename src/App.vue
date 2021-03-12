@@ -1,12 +1,17 @@
 <template>
 <div>
 <Header/>
+
 <main class="container">
-  <!-- <header>
-    <h1>APP VUE COMPONENT</h1>
-  </header> -->
-  <router-view></router-view>
+  <div class="pages-wrapper">
+    <router-view></router-view>
+  </div>
+  <div class="sidebar-wrapper" 
+    v-if="!this.$store.getters.sidebarInfo.isShowedSidebar">
+    <Sidebar/>
+  </div>
 </main>
+<SidebarNavigation />
 <Footer/>
 </div>
 </template>
@@ -14,12 +19,16 @@
 
 import Header from './components/core/TheHeader.vue';
 import Footer from './components/core/TheFooter.vue';
-
+import Sidebar from './components/UI/Sidebar.vue';
+import SidebarNavigation from './components/core/SidebarNavigation.vue'
+;
 export default {
     name: "App",
     components: {
       Header,
-      Footer
+      Footer,
+      Sidebar,
+      SidebarNavigation
     },
     data() {
       return {
@@ -27,7 +36,9 @@ export default {
       }
     },
     computed: {
-
+      isShowedSidebar() {
+        return this.$store.getters.sidebarInfo.isShowedSidebar;
+      }
     },
     methods: {
 
@@ -43,10 +54,29 @@ export default {
 </script>
 
 <style>
+
 body {
-  padding: 2em;
+  
 }
+
 .container {
   margin-top: 6em;
+  display: flex;
 }
+
+.pages-wrapper {
+  padding: 0 6em;
+  margin-right: auto;
+  width: 100%;
+  /* width: calc(100% - 20em); */
+}
+
+.sidebar-wrapper {
+    position: fixed;
+    top: 0; left: calc(100% - 20em);
+    height: 100vh;
+    width: 20em;
+    background: gray;
+}
+
 </style>

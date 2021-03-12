@@ -17,6 +17,7 @@
                   <textarea
                         id="description"
                         name="description"
+                        rows="6"
                         v-model="formData.description"></textarea>
                 </div>
                 <div class="submit">

@@ -5,9 +5,10 @@
           <p>Status: {{status}}</p>
           <p>Created on: 01.11.2021</p>
           <p>Creator: {{creator.name}}</p>
-          <p v-if="description">Description: {{description}}</p>
           <p>Suggestions: {{suggestions.length}}</p>
           <p>Issues: {{issues.length}}</p>
+          <p v-if="description">Description: {{description}}</p>
+  
         </section>
         <!-- <nav>
           <button v-if="!status">Suggestions</button>
