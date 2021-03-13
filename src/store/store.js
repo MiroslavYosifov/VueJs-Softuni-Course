@@ -8,6 +8,7 @@ import issue from './modules/issue';
 import suggestion from './modules/suggestion';
 import feature from './modules/feature';
 import sidebar from './modules/sidebar';
+import spinner from './modules/spinner';
 
 export const store = new Vuex.Store({
     state: {
@@ -27,6 +28,7 @@ export const store = new Vuex.Store({
         feature,
         issue,
         suggestion,
-        sidebar
+        sidebar,
+        spinner
     }
 });

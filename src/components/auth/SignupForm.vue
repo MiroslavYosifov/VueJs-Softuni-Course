@@ -23,11 +23,11 @@
         <div class="input">
           <label for="re-password">Comfirm Password</label>
           <input 
-            type="password" 
-            name="re-password" 
-            id="re-password" 
-            placeholder="******"
-            v-model="$v.formData.confirmPassword.$model">
+                  type="password" 
+                  name="re-password" 
+                  id="re-password" 
+                  placeholder="******"
+                  v-model="$v.formData.confirmPassword.$model">
           <p class="error" v-if="!$v.formData.confirmPassword.sameAsPassword">Password not match!</p>
         </div>
         <div class="submit">

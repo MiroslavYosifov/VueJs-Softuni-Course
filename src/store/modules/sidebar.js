@@ -13,7 +13,14 @@ const getters = {
 
 const mutations = {
     changeSideBarStatus(state) {
-        state.isShowedSidebar = !state.isShowedSidebar
+        state.isShowedSidebar = !state.isShowedSidebar;
+        if(!state.isShowedSidebar) {
+            document.documentElement.style.setProperty("--sidebar-width", "20em");
+        } 
+        else {
+            document.documentElement.style.setProperty("--sidebar-width", "0em");
+        }
+        
     },
 }
 

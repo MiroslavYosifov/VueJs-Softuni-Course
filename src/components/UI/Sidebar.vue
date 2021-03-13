@@ -29,7 +29,7 @@ export default {
 .sidebar {
     padding: 5em 0;
     height: 100%;
-    background: rgb(255, 255, 255);
+    background: rgb(240, 240, 240);
 }
 
 .sidebar nav {
@@ -57,7 +57,7 @@ export default {
     display: block;
     font-size: 3em;
     top: 50%; left: 50%;
-    color: rgb(236, 131, 45);
+    color: rgb(221, 98, 98);
     transform: translate(-50%, -50%);
 }
 </style>

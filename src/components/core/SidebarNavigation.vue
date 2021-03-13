@@ -28,7 +28,7 @@ export default {
 <style>
 .sidebar-navigation {
     position: fixed;
-    top: 10%; right: 1%;
+    top: 10%; right: 0.3em;
 }
 
 .sidebar-navigation ul {
@@ -44,7 +44,7 @@ export default {
     margin-top: 1em;
     border-radius: 0.1em;
     box-shadow: 0 4px 5px rgb(189, 189, 189);
-    background: rgb(170, 170, 170);
+    background: rgb(204, 204, 204);
     cursor: pointer;
 }
 
@@ -53,13 +53,13 @@ export default {
     display: block;
     font-size: 2.4em;
     top: 50%; left: 50%;
-    color: white;
+    color: gray;
     transform: translate(-50%, -50%);
 }
 
 .sidebar-navigation ul li:hover,
 .sidebar-navigation ul li:hover i {
-     background: white;
+     background: rgb(182, 182, 182);
      color: gray;
 }
 

@@ -1,3 +1,7 @@
 :root {
     --main-layout-width: 100vw;
+    --sidebar-width: 0em;
+
+    --spinner-color: rgb(216, 50, 0);
+    --spiner-background: rgb(255, 255, 255);
 }

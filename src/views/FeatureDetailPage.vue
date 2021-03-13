@@ -1,6 +1,5 @@
 <template>
 <div class="feature">
-
   <div class="issue-form-wrapper"
     v-if="isShowedIssueAddForm">
       <IssueForm @on-issue-submit="onIssueFormSubmit"/>

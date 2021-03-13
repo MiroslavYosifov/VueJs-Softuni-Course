@@ -37,12 +37,13 @@
 import ProjectForm from '../components/project/ProjectForm.vue';
 import axiosProject from '../services/project-axios';
 
+
 export default {
     props: {
 
     },
     components: {
-      ProjectForm
+      ProjectForm,
     },
     data() {
       return {

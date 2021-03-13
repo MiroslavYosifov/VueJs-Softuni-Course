@@ -58,7 +58,8 @@
     },
     methods: {
       async onSubmit () {
-        this.$store.dispatch('signin', { ...this.formData })
+        this.$store.dispatch('signin', { ...this.formData });
+        this.$router.push(`/projects`);
       }
     }
   }
