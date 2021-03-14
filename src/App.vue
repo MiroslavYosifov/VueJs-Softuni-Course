@@ -14,7 +14,9 @@
     <Sidebar/>
   </div>
 </main>
-<SidebarNavigation />
+<div v-if="auth">
+  <SidebarNavigation />
+</div>
 <Footer/>
 </div>
 </template>
@@ -42,6 +44,9 @@ export default {
       }
     },
     computed: {
+      auth() {
+        return this.$store.getters.isAuthenticated;
+      },
       getLoading() {
         return this.$store.getters.getLoading;
       },

@@ -3,6 +3,7 @@
             <header>
               <h4>Add new Feature</h4>
             </header>
+            <p v-if="this.resError">{{resError}}</p>
             <form @submit.prevent="onSubmit">
                 <div class="input">
                   <label for="name">Name</label>
@@ -35,6 +36,7 @@ import axiosFeature from '../../services/feature-axios';
 export default {
     data () {
       return {
+        resError: false,
         formData: {
             name: "",
             description: ""
@@ -55,11 +57,12 @@ export default {
         }
 
         try {
-            const resFeature = await axiosFeature.createFeature(formData);
-            this.$store.dispatch('showHideFeatureForm');
-            this.$emit('on-feature-submit', resFeature.data);
+          const resFeature = await axiosFeature.createFeature(formData);
+          this.$store.dispatch('showHideFeatureForm');
+          this.$emit('on-feature-submit', resFeature.data);
         } catch (error) {
-            console.log(error);
+          this.resError = error;
+          console.log(error);
         }
       },
       hideFeatureForm () {
