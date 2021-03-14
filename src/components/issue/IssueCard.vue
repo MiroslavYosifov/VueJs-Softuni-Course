@@ -10,7 +10,6 @@
       <p v-if="feature">Feature: {{feature.name}}</p>
     </section>
   </div>
-
 </template>
 
 <script>

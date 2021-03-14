@@ -14,6 +14,9 @@ const getters = {
     getAuthToken (state) {
         return state.authToken;
     },
+    getUserId (state) {
+        return state.userId
+    },
     userInfo (state) {
         const user = {
             userId: state.userId,

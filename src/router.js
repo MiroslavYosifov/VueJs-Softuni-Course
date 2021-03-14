@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import { store } from './store/store';
-
 Vue.use(VueRouter);
 
 import About from './views/About.vue';
