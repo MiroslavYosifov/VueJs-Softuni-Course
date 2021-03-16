@@ -1,118 +1,15 @@
 <template>
- <div class="feature-container">
-     <div class="feature-element-container suggestions" >
-      <header>
-        <span><i class="fas fa-lightbulb"></i></span>
-        <h3>Suggestions</h3>
-      </header>
-      <section>
-        <template v-if="getFeaturesByStatus('suggestion')">
-          <template v-for="feature of project.features">
-            <div class="feature-element-wrapper" 
-                :key="feature._id"
-                v-if="feature.status === 'suggestion'">
-              <div class="ropes"></div>
-              <div 
-                class="feature-element suggestions"
-                @click.prevent="loadFeatureDetailPage(feature._id)">
-                  <FeatureCard 
-                    :featureId="feature._id"
-                    :name="feature.name"
-                    :date="feature.date"
-                    :status="feature.status"
-                    :creator="feature.creator"
-                    :project="project"
-                    :suggestions="feature.suggestions"
-                    :issues="feature.issues"
-                />
-              </div>
-           </div>
-          </template>
-        </template>
-        <template  v-else>
-          <h3>No Features</h3>
-        </template>
-      </section>
-    </div>
-    <div class="feature-element-container development" >
-      <header>
-        <span><i class="fas fa-cogs"></i></span>
-        <h3>Development</h3>
-      </header>
-      <section>
-        <template v-if="getFeaturesByStatus('development')">
-          <template v-for="feature of project.features">
-            <div class="feature-element-wrapper" 
-                :key="feature._id"
-                v-if="feature.status === 'development'">
-              <div class="ropes"></div>
-              <div 
-                class="feature-element development"
-                @click.prevent="loadFeatureDetailPage(feature._id)">
-                  <FeatureCard 
-                    :featureId="feature._id"
-                    :name="feature.name"
-                    :date="feature.date"
-                    :status="feature.status"
-                    :creator="feature.creator"
-                    :project="project"
-                    :suggestions="feature.suggestions"
-                    :issues="feature.issues"
-                />
-              </div>
-           </div>
-          </template>
-        </template>
-        <template  v-else>
-          <h3>No Features</h3>
-        </template>
-      </section>
-    </div>
-    <div class="feature-element-container testing" >
-      <header>
-        <span><i class="fas fa-bug"></i></span>
-        <h3>Testing</h3>
-      </header>
-      <section>
-        <template v-if="getFeaturesByStatus('testing')">
-          <template v-for="feature of project.features">
-            <div class="feature-element-wrapper" 
-                :key="feature._id"
-                v-if="feature.status === 'testing'">
-              <div class="ropes"></div>
-              <div 
-                class="feature-element testing"
-                @click.prevent="loadFeatureDetailPage(feature._id)">
-                  <FeatureCard 
-                    :featureId="feature._id"
-                    :name="feature.name"
-                    :date="feature.date"
-                    :status="feature.status"
-                    :creator="feature.creator"
-                    :project="project"
-                    :suggestions="feature.suggestions"
-                    :issues="feature.issues"
-                />
-              </div>
-           </div>
-          </template>
-        </template>
-        <template  v-else>
-          <h3>No Features</h3>
-        </template>
-      </section>
-    </div>
-    <div class="feature-element-container done" >
-      <header>
-          <span><i class="fas fa-check-circle"></i></span>
-          <h3>Done</h3>
-      </header>
-        <section>
-        <template v-if="getFeaturesByStatus('done')">
+<div class="feature-element-container done" >
+    <header> 
+        <span><i :class="[iconClass]"></i></span>
+        <h3>{{status}}</h3>
+    </header>
+    <section>
+        <template v-if="getFeaturesByStatus(status)">
           <template v-for="feature of project.features">
            <div class="feature-element-wrapper" 
                 :key="feature._id"
-                v-if="feature.status === 'done'">
+                v-if="feature.status === status">
               <div class="ropes"></div>
               <div 
                 class="feature-element done"
@@ -134,9 +31,8 @@
         <template  v-else>
           <h3>No Features</h3>
         </template>
-      </section>
-    </div>
- </div>
+    </section>
+</div>
 </template>
 
 <script>
@@ -148,6 +44,14 @@ export default {
     project: {
       type: Object,
       required: false
+    },
+    status: {
+      type: String,
+      required: true
+    },
+    iconClass: {
+      type: String,
+      require: false
     }
   },
   components: {
@@ -169,11 +73,6 @@ export default {
 </script>
 
 <style>
-.feature-container {
-  width: 100%;
-  display: flex;
-}
-
 .feature-element-container {
   text-align: center;
   width: 25%;
@@ -197,10 +96,6 @@ export default {
   font-size: 3em;
 }
 
-.feature-element-container section {
-
-}
-
 .feature-element {
   /* background: rgb(154, 167, 184); */
   background: white;
@@ -222,8 +117,4 @@ export default {
   cursor: pointer;
   transform: scale(1.005);
 }
-
-
 </style>
-
-

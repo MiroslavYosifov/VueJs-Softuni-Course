@@ -4,17 +4,36 @@
         <button 
             class="accept" 
             data-status="accept"
-            v-if="status === 'waiting for approval'" 
-            @click.prevent="changeIssueStatus">Accept</button>
+            v-if="
+                status === 'waiting for approval' && 
+                (authUserInfo.userId === projectCreatorId || 
+                authUserInfo.userId === featureCreatorId || 
+                authUserInfo.roles.includes('admin'))"
+            @click.prevent="changeIssueStatus">
+            Accept
+        </button>
+
         <button 
             class="decline"
-            v-if="status != 'fixed'" 
-            @click="deleteIssue">Decline</button>
+            v-if="
+                status != 'fixed' && 
+                (authUserInfo.userId === projectCreatorId || 
+                authUserInfo.userId === featureCreatorId || 
+                authUserInfo.roles.includes('admin'))" 
+            @click="deleteIssue">
+            Decline
+        </button>
+
         <button 
             class="fixed"
             data-status="fixed"
-            v-if="status != 'fixed'" 
-            @click.prevent="changeIssueStatus">Fixed</button>
+            v-if="
+                status != 'fixed' &&
+                (authUserInfo.roles.includes('developer') ||
+                authUserInfo.roles.includes('admin'))" 
+            @click.prevent="changeIssueStatus">
+            Fixed
+        </button>
     </nav>
 </template>
 
@@ -25,6 +44,14 @@ import axiosIssue from '../../services/issue-axios';
 export default {
     props: {
         issueId: {
+            type: String,
+            required: true,
+        },
+        projectCreatorId: {
+            type: String,
+            required: true,
+        },
+        featureCreatorId: {
             type: String,
             required: true,
         },
@@ -39,7 +66,9 @@ export default {
       }
     },
     computed: {
-      
+        authUserInfo() {
+            return this.$store.getters.authUserInfo;
+        }
     },
     methods: {
         async deleteIssue() {
@@ -68,9 +97,9 @@ export default {
 };
 </script>
 
-<style>
+<style >
 
-.issue-nav{
+.issue-nav {
   display: flex;
 }
 

@@ -60,19 +60,5 @@ export default {
 </script>
 
 <style>
-/* .list-page {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    padding: 0.4em;
-}
-
-.list-page {
-
-}
-
-.list-page:hover {
-    background: rgb(114, 138, 167);
-    cursor: pointer;
-} */
 
 </style>

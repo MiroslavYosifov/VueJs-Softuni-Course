@@ -12,7 +12,7 @@
                 <router-link to="/projects">Projects</router-link>
               </li>
               <li v-if="auth">
-                <router-link to="/my-profile">Hello {{userInfo.username}}!</router-link>
+                <router-link to="/my-profile">Hello {{authUserInfo.username}}!</router-link>
               </li>
               <template v-if="!auth">
                 <li>
@@ -39,8 +39,8 @@ export default {
     auth() {
       return this.$store.getters.isAuthenticated;
     },
-    userInfo() {
-      return this.$store.getters.userInfo;
+    authUserInfo() {
+      return this.$store.getters.authUserInfo;
     }
   },
   methods: {

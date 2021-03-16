@@ -1,10 +1,28 @@
 <template>
     <nav class="project-navigation">
-        <button @click="showProjectForm">Add Feature</button>
-        <button>Join to Project</button>
-        <button>Edit Project</button>
-        <button @click="deleteProject">Delete Project</button>
-        <button @click.prevent="backToPreviusPage">Back</button>
+        <button 
+            v-if="authUserInfo.isAuthenticated" 
+            @click="showProjectForm"
+            >
+            Add Feature
+        </button>
+        <!-- <button>Join to Project</button>
+        <button>Edit Project</button> -->
+        <button 
+            v-if="
+                authUserInfo.isAuthenticated &&
+                authUserInfo.userId === projectCreatorId ||
+                authUserInfo.roles.includes('admin')"
+            @click="deleteProject"
+            >
+            Delete Project
+        </button>
+
+        <button 
+            @click.prevent="backToPreviusPage"
+            >
+            Back
+        </button>
     </nav>
 </template>
 
@@ -17,21 +35,26 @@ export default {
         projectId: {
             type: String,
             required: true,
+        },
+        projectCreatorId: {
+            type: String,
+            required: true,
         }
     },
     data () {
       return {
-   
+
       }
     },
     computed: {
-      
+        authUserInfo() {
+            return this.$store.getters.authUserInfo;
+        }
     },
     methods: {
         async deleteProject() {
             try {
-                const resDeletedProject = await axiosProject.deleteProject(this.projectId);
-                console.log(resDeletedProject);
+                await axiosProject.deleteProject(this.projectId);
                 this.$router.back();
             } catch (error) {
                 console.log(error);

@@ -4,17 +4,34 @@
         <button
             class="accept"
             data-status="accept" 
-            v-if="status === 'waiting for approval'"
-            @click.prevent="changeSuggestionStatus">Accept</button>
+            v-if="
+                (status === 'waiting for approval') &&
+                (authUserInfo.userId === projectCreatorId || 
+                authUserInfo.userId === featureCreatorId || 
+                authUserInfo.roles.includes('admin'))"
+            @click.prevent="changeSuggestionStatus">
+            Accept
+        </button>
         <button 
-                class="decline"
-                v-if="status != 'done'"
-                @click="deleteSuggestion">Decline</button>
+            class="decline"
+            v-if="
+                (status != 'done') &&
+                (authUserInfo.userId === projectCreatorId || 
+                authUserInfo.userId === featureCreatorId || 
+                authUserInfo.roles.includes('admin'))"
+            @click="deleteSuggestion">
+            Decline
+        </button>
         <button 
             class="done-button"
             data-status="done"
-            v-if="status != 'done'"
-            @click.prevent="changeSuggestionStatus">Done</button>
+            v-if="
+                (status != 'done') &&
+                (authUserInfo.roles.includes('developer') ||
+                authUserInfo.roles.includes('admin'))"
+            @click.prevent="changeSuggestionStatus">
+            Done
+        </button>
     </nav>
 </template>
 
@@ -25,6 +42,14 @@ import axiosSuggestion from '../../services/suggestion-axios';
 export default {
     props: {
         suggestionId: {
+            type: String,
+            required: true,
+        },
+        projectCreatorId: {
+            type: String,
+            required: true,
+        },
+        featureCreatorId: {
             type: String,
             required: true,
         },
@@ -39,7 +64,9 @@ export default {
       }
     },
     computed: {
-      
+        authUserInfo() {
+            return this.$store.getters.authUserInfo;
+        }
     },
     methods: {
         async deleteSuggestion() {

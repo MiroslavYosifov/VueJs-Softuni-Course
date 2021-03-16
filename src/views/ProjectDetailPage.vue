@@ -11,6 +11,7 @@
   <main v-if="isProjectEmpty" class="project-details wrapper">
     <ProjectNavigation
        :projectId="project._id"
+       :projectCreatorId="project.creator._id"
      />
     <header class="project-details header">
        <h1>Project name: {{project.name.toUpperCase()}}</h1>
@@ -34,9 +35,17 @@
          </div>
        </section>
      </div>
-         <FeaturesListByStatus
+      <div class="feature-container">
+        <template v-for="statusType of featureStatusTypes">
+          <FeaturesListByStatus
+            :key="statusType.status"
             :project="project"
+            :status="statusType.status"
+            :iconClass="statusType.iconClass"
           />
+        </template>
+      </div>
+         
     </div>
   </main>
   </div>
@@ -64,6 +73,12 @@ export default {
   data() {
     return {
       project: {},
+      featureStatusTypes: [
+        { status: 'suggestion', iconClass: "fas fa-lightbulb" }, 
+        { status: 'development', iconClass: "fas fa-cogs" },
+        { status: 'testing', iconClass: "fas fa-bug" },
+        { status: 'done', iconClass: "fas fa-check-circle" },
+      ]
     }
   },
   computed: {
@@ -176,14 +191,12 @@ export default {
 }
 
 .project-details.block-element-container.info div {
-  /* background: white; */
   padding: 0 0.6em;
   border-radius: 0.4em;
   text-align: left;
 }
 
 .project-details.block-element {
-  /* background: rgb(154, 167, 184); */
   background: white;
   border: 1px solid rgb(154, 167, 184);
   padding: 0.6em 0.2em;
@@ -195,6 +208,11 @@ export default {
 .project-details.block-element:hover {
   cursor: pointer;
   transform: scale(1.005);
+}
+
+.feature-container {
+  width: 100%;
+  display: flex;
 }
 
 </style>

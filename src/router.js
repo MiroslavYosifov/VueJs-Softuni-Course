@@ -18,17 +18,8 @@ const routes = [
   { path: '/', component: About },
   { path: '/about', component: About, children: [] },
   { path: '/contact', component: Contact },
-  { 
-    path: '/projects', 
-    component: ProjectPage, 
-    children: [ 
-      { 
-        path: ':projectId', 
-        component: ProjectDetailPage, 
-        props: true,
-      },
-    ] 
-  },
+  { path: '/projects', component: ProjectPage },
+  { path: '/projects/:projectId', component: ProjectDetailPage },
   { 
     path: '/feature/:featureId', 
     component: FeatureDetailPage,

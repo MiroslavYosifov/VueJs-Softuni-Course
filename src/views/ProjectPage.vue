@@ -1,42 +1,18 @@
 <template>
   <div>
-    <template v-if="!checkIfSelectedDetailProjectPage">
-      <ProjectForm @on-project-submit="onProjectFormSubmit"/>
-      <header>
-        <h1>List Projects</h1>
-      </header>
-      <table class="project-list-wrapper">
-        <tr>
-          <th>ID</th>
-          <th>Project Name</th>
-          <th>Created On</th>
-          <th>Last Updated</th>
-          <th>Creator</th>
-          <th>Members</th>
-          <th>Features</th>
-        </tr>
-        <tr v-for="(project, index) of getProjects" 
-            :key="index"
-            :id="project._id" 
-            @click.prevent="loadProjectDetailPage">  
-          <td>{{project._id}}</td>
-          <td>{{project.name}}</td>
-          <td>{{project.date}}</td>
-          <td>{{project.date}}</td>
-          <td>{{project.creator.name}}</td>
-          <td>{{project.members.length}}</td>
-          <td>{{project.features.length}}</td>
-        </tr>
-      </table>
-    </template>
-    <router-view></router-view>
+    <ProjectForm @on-project-submit="onProjectFormSubmit"/>
+    <header>
+       <h1>List Projects</h1>
+    </header>
+    <ProjectList 
+      :projects="getProjects" />
   </div>
 </template>
 <script>
 
 import ProjectForm from '../components/project/ProjectForm.vue';
+import ProjectList from '../components/project/ProjectList.vue';
 import axiosProject from '../services/project-axios';
-
 
 export default {
     props: {
@@ -44,16 +20,11 @@ export default {
     },
     components: {
       ProjectForm,
+      ProjectList
     },
     data() {
       return {
-        projects: [],
-        isSelectedDetailProjectPage: false
-      }
-    },
-    provide() {
-      return {
-        projects: this.projects
+        projects: []
       }
     },
     computed: {
@@ -65,11 +36,6 @@ export default {
       }
     },
     methods: {
-        loadProjectDetailPage(e) {
-            const projectId = e.currentTarget.id;
-            this.isSelectedDetailProjectPage = true;
-            this.$router.push(`/projects/${projectId}`);
-        },
         onProjectFormSubmit(createdProject) {
             this.projects.unshift(createdProject);
         },

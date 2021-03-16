@@ -10,36 +10,12 @@
       <p v-if="feature">Feature: {{feature.name}}</p>
     </section>
   </div>
-
 </template>
 
 <script>
 export default {
   props: {
-    userId: {
-        type: String,
-        required: false,
-    },
-    imageUrl: {
-        type: String,
-        required: false,
-    },
-    username: {
-        type: String,
-        required: false,
-    },
-    firstName: {
-        type: String,
-        required: false,
-    },
-    lastName: {
-        type: String,
-        required: false,
-    },
-    description: {
-        type: String,
-        required: false,
-    }
+   
   },
   computed: {
 

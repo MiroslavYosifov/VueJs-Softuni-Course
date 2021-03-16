@@ -12,7 +12,10 @@
 
   <template v-if="isFeatureEmpty">
     <FeatureNavigation 
-        :featureId="feature._id" 
+        :featureId="feature._id"
+        :featureStatus="feature.status"
+        :featureCreatorId="feature.creator._id" 
+        :projectCreatorId="feature.project.creator"
         />
   </template>
 
@@ -50,6 +53,8 @@
         />
         <SuggestionNavigation
           :suggestionId="suggestion._id"
+          :projectCreatorId="suggestion.project.creator"
+          :featureCreatorId="suggestion.feature.creator"
           :status="suggestion.status"
           @on-suggestion-delete="onElementDelete"
           @on-suggestion-update-status="onElementUpdateStatus"
@@ -72,6 +77,8 @@
         />
         <IssueNavigation
           :issueId="issue._id"
+          :projectCreatorId="issue.project.creator"
+          :featureCreatorId="issue.feature.creator"
           :status="issue.status"
           @on-issue-delete="onElementDelete"
           @on-issue-update-status="onElementUpdateStatus"
