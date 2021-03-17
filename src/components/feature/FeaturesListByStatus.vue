@@ -1,5 +1,5 @@
 <template>
-<div class="feature-element-container done" >
+<div class="feature-element-container" >
     <header> 
         <span><i :class="[iconClass]"></i></span>
         <h3>{{status}}</h3>
@@ -12,7 +12,7 @@
                 v-if="feature.status === status">
               <div class="ropes"></div>
               <div 
-                class="feature-element done"
+                class="feature-element"
                 @click.prevent="loadFeatureDetailPage(feature._id)">
                   <FeatureCard 
                     :featureId="feature._id"

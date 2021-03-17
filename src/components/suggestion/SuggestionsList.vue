@@ -1,10 +1,10 @@
 <template>
-    <div class="feature-block">
+    <div class="suggestions-list-block">
       <header>
         <span><i class="fas fa-lightbulb"></i></span>
         <h2>Suggestions</h2>
       </header>
-      <div class="feature-suggestions" v-for="suggestion of getSuggestions" :key="suggestion._id">
+      <div class="suggestions-list" v-for="suggestion of getSuggestions" :key="suggestion._id">
         <SuggestionCard
           :suggestionId="suggestion._id"
           :name="suggestion.name"
@@ -79,4 +79,33 @@ export default {
 
 <style>
 
+.suggestions-list-block {
+  width: 100%;
+}
+
+.suggestions-list-block header span i {
+  font-size: 3em;
+}
+
+.suggestions-list-block:first-child {
+  width: 100%;
+}
+
+.suggestions-list-block:first-child  header {
+  text-align: center;
+}
+
+.suggestions-list-block header {
+  text-align: center;
+  padding: 1em;
+}
+
+.suggestions-list {
+  background: white;
+  border: 1px solid rgb(154, 167, 184);
+  padding: 1em 2em;
+  color: rgb(109, 125, 145);
+  margin-bottom: 0.4em;
+  border-radius: 0.1em;
+}
 </style>

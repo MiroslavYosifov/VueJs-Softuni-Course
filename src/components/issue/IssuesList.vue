@@ -1,10 +1,10 @@
 <template>
-    <div class="feature-block">
+    <div class="issues-list-block">
       <header>
         <span><i class="fas fa-exclamation-circle"></i></span>
         <h2>Issues</h2>
       </header>
-      <div class="feature-issues" v-for="issue of getIssues" :key="issue._id">
+      <div class="issues-list" v-for="issue of getIssues" :key="issue._id">
         <IssueCard
           :issueId="issue._id"
           :name="issue.name"
@@ -78,5 +78,33 @@ export default {
 </script>
 
 <style>
+.issues-list-block header span i {
+  font-size: 3em;
+}
+
+.issues-list-block:first-child {
+  width: 100%;
+}
+
+.issues-list-block:first-child header {
+  text-align: center;
+}
+
+.issues-list-block {
+  width: 100%;
+}
+
+.issues-list-block header {
+   padding: 1em;
+}
+
+.issues-list {
+  background: white;
+  border: 1px solid rgb(154, 167, 184);
+  padding: 1em 2em;
+  color: rgb(109, 125, 145);
+  margin-bottom: 0.4em;
+  border-radius: 0.1em;
+}
 
 </style>

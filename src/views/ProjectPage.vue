@@ -13,7 +13,7 @@
     <header>
        <h1>List Projects</h1>
     </header>
-    <ProjectList 
+    <ProjectTable 
       :projects="getProjects" />
   </div>
 </template>
@@ -22,7 +22,7 @@
 import SuccessModal from '../components/UI/SuccessModal.vue'
 
 import ProjectForm from '../components/project/ProjectForm.vue';
-import ProjectList from '../components/project/ProjectList.vue';
+import ProjectTable from '../components/project/ProjectTable.vue';
 
 import axiosProject from '../services/project-axios';
 
@@ -33,7 +33,7 @@ export default {
     components: {
       SuccessModal,
       ProjectForm,
-      ProjectList
+      ProjectTable
     },
     data() {
       return {

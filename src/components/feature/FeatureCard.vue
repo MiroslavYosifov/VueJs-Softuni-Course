@@ -36,7 +36,7 @@ export default {
       required: false,
     },
     creator: {
-      type: Object,
+      type: [String, Object],
       required: false,
     },
     project: {

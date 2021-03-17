@@ -42,16 +42,18 @@
           :issues="feature.issues"/>
       </div>
     </div>
-    
-    <template v-if="getSuggestions">
-      <SuggestionList 
+    <div 
+      class="feature-suggestion-block" 
+      v-if="getSuggestions">
+      <SuggestionsList 
         :suggestions="getSuggestions"/>
-    </template>
-
-    <template v-if="getIssues">
+    </div>
+    <div 
+      class="feature-issues-block" 
+      v-if="getIssues">
       <IssuesList 
         :issues="getIssues"/>
-    </template>
+    </div>
   </div>
 </div>
 </template>
@@ -64,10 +66,10 @@ import FeatureCard from '../components/feature/FeatureCard.vue';
 import FeatureNavigation from '../components/feature/FeatureNavigation.vue';
 
 import SuggestionForm from '../components/suggestion/SuggestionForm.vue';
-import SuggestionList from '../components/suggestion/SuggestionList.vue';
+import SuggestionsList from '../components/suggestion/SuggestionsList.vue';
 
 import IssueForm from '../components/issue/IssueForm.vue';
-import IssuesList from '../components/issue/IssueList.vue';
+import IssuesList from '../components/issue/IssuesList.vue';
 
 import featureAxios from '../services/feature-axios';
 
@@ -88,7 +90,7 @@ export default {
     IssueForm,
     IssuesList,
     SuggestionForm,
-    SuggestionList,
+    SuggestionsList,
   },
   computed: {
     getIssues() {
@@ -115,32 +117,6 @@ export default {
     onSuggestionFormSubmit(suggestion) {
       this.feature.suggestions.unshift(suggestion);
       this.successMessage = `Your Suggestion ${suggestion.name} was added successfully to your suggestions list!`;
-    },
-    onElementDelete(value) {
-      if(value.type === "issue") {
-        this.feature.issues = this.feature.issues.filter(f => f._id !== value.issueId);
-      }
-      if(value.type === "suggestion") {
-        this.feature.suggestions = this.feature.suggestions.filter(s => s._id !== value.suggestionId);
-      }
-    },
-    onElementUpdateStatus(value) {
-      if(value.type === "issue") {
-        this.feature.issues = this.feature.issues.map(e => {
-          if(e._id === value.issueId) {
-            e.status = value.status;
-          }
-          return e;
-        })
-      }
-      if(value.type === "suggestion") {
-        this.feature.suggestions = this.feature.suggestions.map(e => {
-          if(e._id === value.suggestionId) {
-            e.status = value.status;
-          }
-          return e;
-        });
-      }
     }
   },
   async mounted() {
@@ -193,7 +169,7 @@ export default {
 }
 
 .feature-block {
-  width: 35%;
+  width: 30%;
   margin: 0 1em;
 }
 
@@ -202,23 +178,10 @@ export default {
   margin-bottom: 1em;
 }
 
-.feature-suggestions,
-.feature-issues {
-  background: white;
-  border: 1px solid rgb(154, 167, 184);
-  padding: 1em 2em;
-  color: rgb(109, 125, 145);
-  margin-bottom: 0.4em;
-  border-radius: 0.1em;
-}
-
-
-.feature-suggestions {
-
-}
-
-.feature-issues {
-
+.feature-suggestion-block,
+.feature-issues-block {
+  width: 35%;
+  margin-right: 2em;
 }
 
 </style>

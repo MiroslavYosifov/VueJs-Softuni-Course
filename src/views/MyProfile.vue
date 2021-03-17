@@ -5,20 +5,42 @@
         <ProfileCard />
       </section>
       <section class="myprofile-projects">
-         <ProjectList 
-          :projects="projects"
-          :isMyProfilePage="true" />
+          <header>
+            <h3>My projects</h3>
+          </header>
+          <ul>
+            <li v-for="project of projects" :key="project._id">
+                <router-link :to="`/projects/${project._id}`">{{project.name}}</router-link>
+            </li>
+          </ul>
       </section>
     </section>
     <section class="myprofile-tasks">
-
+      <section class="myprofile-tasks-features">
+        <FeatureList 
+          :features="features"
+        />
+      </section>
+      <section class="myprofile-tasks-issues">
+        <IssuesList 
+          :issues="issues"
+        />
+      </section>
+      <section class="myprofile-tasks-suggestions">
+        <SuggestionsList 
+          :suggestions="suggestions"
+        />
+      </section>
     </section>
   </div>
 </template>
 
 <script>
 
-import ProjectList from '../components/project/ProjectList.vue';
+import FeatureList from '../components/feature/FeaturesList.vue';
+import IssuesList from '../components/issue/IssuesList.vue';
+import SuggestionsList from '../components/suggestion/SuggestionsList.vue';
+
 import ProfileCard from '../components/user/ProfileCard.vue';
 import axiosUser from '../services/user-axios';
 
@@ -28,7 +50,9 @@ export default {
   },
   components: {
     ProfileCard,
-    ProjectList
+    FeatureList,
+    IssuesList,
+    SuggestionsList
   },
   data() {
     return {
@@ -64,53 +88,84 @@ export default {
 
 <style>
 .myprofile-container {
+  padding: 1em;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .myprofile-info {
-  width: 50%;
-  background: rgb(189, 179, 169);
+  width: 100%;
+  display: flex;
+  padding: 1em;
+  background: rgb(250, 246, 238);
 }
 
 .myprofile-profile {
-
+  width: 50%;
+  background: rgb(255, 255, 255);
 }
 
 .myprofile-projects {
-  width: 100%;
-  padding: 2em;
+  width: 50%;
+  background: rgb(255, 255, 255);
+  margin-left: 1em;
 }
 
-.myprofile-project-list-wrapper {
-    width: 100%;
-    padding: 1em;
-    font-size: 0.8em;
-    border-collapse: collapse;
-    background: rgb(250, 246, 238);
+.myprofile-projects header {
+   padding: 1em 1em 0 1em;
 }
 
-.myprofile-project-list-wrapper tr:hover {
-  cursor: pointer;
+.myprofile-projects header h3 {
+  text-align: center;
 }
 
-.myprofile-project-list-wrapper tr th,
-.myprofile-project-list-wrapper tr td {
-    border: 2px solid rgb(255, 255, 255);
-    text-align: center;
-    padding: 0.8em;
+.myprofile-projects ul {
+  padding: 1em;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.myprofile-project-list-wrapper tr:hover td {
-    background: rgb(196, 204, 214);
+.myprofile-projects ul li {
+  /* background: rgb(183, 183, 209); */
+  margin: 0.2em;
+  border-radius: 0.1em;
 }
 
-.myprofile-project-list-wrapper tr th {
+.myprofile-projects ul li a {
+  display: block;
+  padding: 0.4em 1em;
   background:rgb(228, 223, 215);
+  color: gray;
+}
+
+.myprofile-projects ul li a:hover  {
+  background: rgb(172, 182, 196);
 }
 
 /* Second container */
 .myprofile-tasks {
-  width: 50%;
-  background: rgb(172, 172, 172);
+  display: flex;
+  width: 100%;
+  background: rgb(250, 246, 238);
+  /* background: rgb(172, 172, 172); */
 }
+
+.myprofile-tasks-features,
+.myprofile-tasks-issues,
+.myprofile-tasks-suggestions {
+  padding: 1em;
+}
+
+.myprofile-tasks-features {
+  width: 30%;
+}
+
+.myprofile-tasks-issues {
+  width: 35%;
+}
+
+.myprofile-tasks-suggestions {
+  width: 35%;
+} 
+
 </style>
