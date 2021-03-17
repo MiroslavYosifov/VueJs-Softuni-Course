@@ -10,6 +10,11 @@
       <SuggestionForm @on-suggestion-submit="onSuggestionFormSubmit"/>
   </div>
 
+  <template v-if="successMessage">
+      <SuccessModal 
+          :successMessage="successMessage"/>
+  </template>
+
   <template v-if="isFeatureEmpty">
     <FeatureNavigation 
         :featureId="feature._id"
@@ -91,6 +96,8 @@
 
 <script>
 
+import SuccessModal from '../components/UI/SuccessModal.vue';
+
 import FeatureCard from '../components/feature/FeatureCard.vue';
 import FeatureNavigation from '../components/feature/FeatureNavigation.vue';
 
@@ -111,9 +118,11 @@ export default {
   data() {
     return {
       feature: {},
+      successMessage: ''
     }
   },
   components: {
+    SuccessModal,
     FeatureCard,
     FeatureNavigation,
     IssueCard,
@@ -142,10 +151,12 @@ export default {
   },
   methods: {
     onIssueFormSubmit(issue) {
-      this.feature.issues.unshift(issue)
+      this.feature.issues.unshift(issue);
+      this.successMessage = `Your Issue ${issue.name} was added successfully to your issues list!`;
     },
     onSuggestionFormSubmit(suggestion) {
       this.feature.suggestions.unshift(suggestion);
+      this.successMessage = `Your Suggestion ${suggestion.name} was added successfully to your suggestions list!`;
     },
     onElementDelete(value) {
       if(value.type === "issue") {

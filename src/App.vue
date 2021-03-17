@@ -10,7 +10,7 @@
     <router-view></router-view>
   </div>
   <div class="sidebar-wrapper" 
-    v-if="!isShowedSidebar">
+    v-if="!isShowedSidebar && auth">
     <Sidebar/>
   </div>
 </main>
@@ -74,12 +74,15 @@ body {
 }
 
 .container {
-  margin-top: 6em;
+  min-height: 100vh;
+  /* margin-top: 6em; */
   display: flex;
 }
 
 .pages-wrapper {
   padding: 0 4em;
+  margin-top: 6em;
+  margin-bottom: 4em;
   margin-right: auto;
   width: calc(100% - var(--sidebar-width));
   /* width: calc(100% - 20em); */
@@ -90,8 +93,7 @@ body {
     top: 0; left: calc(100% - var(--sidebar-width));
     height: 100vh;
     width: 20em;
-    background: rgb(170, 170, 170);
-    /* box-shadow: -3px 0px 3px 0px rgb(196, 196, 196); */
+    background: rgb(240, 240, 240)
 }
 
 </style>

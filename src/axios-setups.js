@@ -18,8 +18,8 @@ function axiosSetups () {
       console.log('RESPONSE', res);
       axios.defaults.headers.common['Authorization'] = localStorage.getItem('authToken');
       store.dispatch('changeLoadingStatus');
-
       return res;
+      
     }, function (error) {
       store.dispatch('changeLoadingStatus');
       return Promise.reject(error.response.data);

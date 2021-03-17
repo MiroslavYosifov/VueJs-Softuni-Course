@@ -1,15 +1,12 @@
 import './assets/styles.css';
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
-import vuescroll from 'vuescroll';
 import axiosSetups from './axios-setups';
 import { store } from './store/store';
 
 import App from './App.vue';
 import { router } from './router';
 
-
-Vue.use(vuescroll);
 Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 

@@ -1,6 +1,7 @@
 <template>
   <div id="signup">
     <div class="signup-form">
+      <p v-if="authErrors">{{authErrors}}</p>
       <form @submit.prevent="onSubmit">
         <div class="input">
           <label for="name">Name</label>
@@ -66,6 +67,11 @@ export default {
         confirmPassword: {
           sameAsPassword: sameAs('password')
         },
+      }
+  },
+  computed: {
+      authErrors () {
+         return this.$store.getters.getAuthErrors;
       }
   },
   methods: {

@@ -56,8 +56,7 @@ export default {
     position: fixed;
     z-index: 99999;
     top: 0; left: 0;
-    width: 100%;
-    /* background: rgb(154, 167, 184); */
+    width: calc(100% - var(--sidebar-width));
     padding: 0 2em;
     background: white;
     box-shadow: 0 2px 3px #ccc;

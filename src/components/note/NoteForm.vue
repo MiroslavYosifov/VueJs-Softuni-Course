@@ -10,15 +10,17 @@
                         type="text"
                         id="title"
                         name="title"
-                        v-model="formData.title">
+                        v-model="$v.formData.title.$model">
+                  <p class="error" v-if="$v.formData.title.$error">Title is required</p>
                 </div>
                 <div class="input">
                   <label for="description">Description</label>
                   <textarea
                         id="description"
                         name="description"
-                        rows="4"
-                        v-model="formData.description"></textarea>
+                        rows="6"
+                        v-model="$v.formData.description.$model"></textarea>
+                  <p class="error" v-if="$v.formData.description.$error">Description is required</p>
                 </div>
                 <div class="submit">
                   <button type="submit">Submit</button>
@@ -29,6 +31,7 @@
 
 <script>
 
+import { required, minLength, maxLength } from "vuelidate/lib/validators/index.js";
 import noteAxios from '../../services/note-axios';
 
 export default {
@@ -38,6 +41,19 @@ export default {
             title: "",
             description: ""
         }
+      }
+    },
+    validations: {
+      formData: {
+        title: { 
+          required,
+          minLength: minLength(4),
+        },
+        description: { 
+          required,
+          minLength: minLength(10),
+          maxLength: maxLength(1000),
+        },
       }
     },
     computed: {

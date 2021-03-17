@@ -6,6 +6,7 @@ const state = {
     roles: [],
     userId: null,
     username: null,
+    errorMessage: false
 }
 
 const getters = {
@@ -26,10 +27,19 @@ const getters = {
             username: state.username,
         }
         return user;
-    }
+    },
+    getAuthErrors (state) {
+        return state.errorMessage
+    },
 }
 
 const mutations = {
+    addErrorMessage(state, error) {
+        state.errorMessage = error;
+    },
+    setErrorsToFalse (state) {
+        state.errorMessage = false;
+    },
     authUser (state, userData) {
         state.authToken = userData.authToken;
         state.roles = userData.userRoles;
@@ -45,6 +55,9 @@ const mutations = {
 }
 
 const actions = {
+    async clearErrors({commit}) {
+        commit('setErrorsToFalse'); 
+    },
     async setLogoutTimer ({commit}, expirationTime) {
         setTimeout(() => {
             commit('clearAuthData');
@@ -85,14 +98,20 @@ const actions = {
             });
             const currentDate = new Date();
             const expirationDate = new Date(currentDate.getTime() + Number(res.data.expiresIn) * 1000);
+
             localStorage.setItem('authToken', res.data.authToken);
             localStorage.setItem('userRoles', res.data.roles.toString(','));
             localStorage.setItem('expiresIn', expirationDate);
             localStorage.setItem('userId', res.data.userId);
             localStorage.setItem('username', res.data.name);
+
             dispatch('setLogoutTimer', res.data.expiresIn);
+
+            router.replace('/projects');
+
         } catch (error) {
-           console.log(error);
+            console.log(error);
+            commit('addErrorMessage', error); 
         }
     },
     async signin ({commit, dispatch}, authData) {
@@ -108,14 +127,20 @@ const actions = {
             });
             const currentDate = new Date();
             const expirationDate = new Date(currentDate.getTime() + Number(res.data.expiresIn) * 1000);
+
             localStorage.setItem('authToken', res.data.authToken);
             localStorage.setItem('userRoles', res.data.roles.toString(','));
             localStorage.setItem('expiresIn', expirationDate);
             localStorage.setItem('userId', res.data.userId);
             localStorage.setItem('username', res.data.name);
+
             dispatch('setLogoutTimer', res.data.expiresIn);
+
+            router.replace('/projects');
+
         } catch (error) {
           console.log(error);
+          commit('addErrorMessage', error); 
         }
     },
     async logout ({commit}) {
@@ -125,6 +150,8 @@ const actions = {
         localStorage.removeItem('expiresIn');
         localStorage.removeItem('userId');
         localStorage.removeItem('username');
+        //if sidebar is open when logout, should be setup on 0 width
+        document.documentElement.style.setProperty("--sidebar-width", "0em");
         router.replace('/signin');
     }
 }

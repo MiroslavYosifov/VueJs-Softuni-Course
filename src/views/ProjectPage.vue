@@ -1,6 +1,15 @@
 <template>
   <div>
-    <ProjectForm @on-project-submit="onProjectFormSubmit"/>
+    
+    <template v-if="authUserInfo.isAuthenticated">
+        <ProjectForm @on-project-submit="onProjectFormSubmit"/>
+    </template>
+
+    <template v-if="successMessage">
+        <SuccessModal 
+          :successMessage="successMessage"/>
+    </template>
+
     <header>
        <h1>List Projects</h1>
     </header>
@@ -10,8 +19,11 @@
 </template>
 <script>
 
+import SuccessModal from '../components/UI/SuccessModal.vue'
+
 import ProjectForm from '../components/project/ProjectForm.vue';
 import ProjectList from '../components/project/ProjectList.vue';
+
 import axiosProject from '../services/project-axios';
 
 export default {
@@ -19,15 +31,20 @@ export default {
 
     },
     components: {
+      SuccessModal,
       ProjectForm,
       ProjectList
     },
     data() {
       return {
-        projects: []
+        projects: [],
+        successMessage: ''
       }
     },
     computed: {
+      authUserInfo() {
+        return this.$store.getters.authUserInfo;
+      },
       getProjects() {
         return this.projects;
       },
@@ -38,6 +55,7 @@ export default {
     methods: {
         onProjectFormSubmit(createdProject) {
             this.projects.unshift(createdProject);
+            this.successMessage = `Your ${createdProject.name} was added successfully to your pojects list!`;
         },
         async getListedProjects() {
           

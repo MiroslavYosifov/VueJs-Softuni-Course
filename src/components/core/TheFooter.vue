@@ -19,5 +19,11 @@ export default {
 </script>
 
 <style>
-
+footer {
+  width: calc(100% - var(--sidebar-width));
+  background: rgb(175, 175, 175);
+  text-align: center;
+  color: rgb(255, 255, 255);
+  padding: 1em;
+}
 </style>

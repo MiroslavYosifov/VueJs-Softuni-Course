@@ -1,6 +1,7 @@
 <template>
   <div id="signin">
     <div class="signin-form">
+      <p class="error" v-if="authErrors">{{authErrors}}</p>
       <form @submit.prevent="onSubmit">
         <div class="input">
           <label for="name">Name</label>
@@ -56,11 +57,18 @@
           }
         }
     },
+    computed: {
+      authErrors () {
+         return this.$store.getters.getAuthErrors;
+      },
+    },
     methods: {
       async onSubmit () {
         this.$store.dispatch('signin', { ...this.formData });
-        this.$router.push(`/projects`);
       }
+    },
+    destroyed() {
+      this.$store.dispatch('clearErrors');
     }
   }
 </script>

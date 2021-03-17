@@ -7,6 +7,10 @@
       @on-feature-submit="onFeatureFormSubmit"
     />
   </div>
+  <template v-if="successMessage">
+      <SuccessModal 
+          :successMessage="successMessage"/>
+  </template>
  
   <main v-if="isProjectEmpty" class="project-details wrapper">
     <ProjectNavigation
@@ -54,6 +58,8 @@
 
 <script>
 
+import SuccessModal from '../components/UI/SuccessModal.vue';
+
 import ProjectNavigation from '../components/project/ProjectNavigation.vue';
 import ProjectCard from '../components/project/ProjectCard.vue';
 import FeatureForm from '../components/feature/FeatureForm.vue';
@@ -65,6 +71,7 @@ export default {
 
   },
   components: {
+    SuccessModal,
     ProjectNavigation,
     ProjectCard,
     FeatureForm,
@@ -78,7 +85,8 @@ export default {
         { status: 'development', iconClass: "fas fa-cogs" },
         { status: 'testing', iconClass: "fas fa-bug" },
         { status: 'done', iconClass: "fas fa-check-circle" },
-      ]
+      ],
+      successMessage: ''
     }
   },
   computed: {
@@ -103,7 +111,8 @@ export default {
       }
     },
     onFeatureFormSubmit(feature) {
-      this.project.features.unshift(feature)
+      this.project.features.unshift(feature);
+      this.successMessage = `Your ${feature.name} was added successfully to your feature list!`;
     }
   },
   created() {

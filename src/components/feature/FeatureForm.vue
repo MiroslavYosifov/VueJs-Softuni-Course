@@ -11,7 +11,8 @@
                         type="text"
                         id="name"
                         name="name"
-                        v-model="formData.name">
+                        v-model="$v.formData.name.$model">
+                <p class="error" v-if="$v.formData.name.$error">Name is required</p>
                 </div>
                 <div class="input">
                   <label for="description">Description</label>
@@ -19,7 +20,8 @@
                         id="description"
                         name="description"
                         rows="6"
-                        v-model="formData.description"></textarea>
+                        v-model="$v.formData.description.$model"></textarea>
+                  <p class="error" v-if="$v.formData.description.$error">Description is required</p>
                 </div>
                 <div class="submit">
                   <button type="submit">Submit</button>
@@ -31,7 +33,9 @@
 
 <script>
 
+import { required, minLength, maxLength } from "vuelidate/lib/validators/index.js";
 import axiosFeature from '../../services/feature-axios';
+
 
 export default {
     data () {
@@ -41,6 +45,19 @@ export default {
             name: "",
             description: ""
         }
+      }
+    },
+    validations: {
+      formData: {
+        name: { 
+          required,
+          minLength: minLength(4),
+        },
+        description: { 
+          required,
+          minLength: minLength(10),
+          maxLength: maxLength(1000),
+        },
       }
     },
     computed: {
