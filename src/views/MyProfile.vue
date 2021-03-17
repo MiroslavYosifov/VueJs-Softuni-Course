@@ -5,27 +5,9 @@
         <ProfileCard />
       </section>
       <section class="myprofile-projects">
-        <table class="myprofile-project-list-wrapper">
-          <tr>
-            <th>ID</th>
-            <th>Project Name</th>
-            <th>Created On</th>
-            <th>Last Updated</th>
-            <th>Members</th>
-            <th>Features</th>
-          </tr>
-          <tr v-for="(project, index) of projects" 
-              :key="index"
-              :id="project._id" 
-              @click.prevent="loadProjectDetailPage">  
-            <td>{{project._id}}</td>
-            <td>{{project.name}}</td>
-            <td>{{project.date}}</td>
-            <td>{{project.date}}</td>
-            <td>{{project.members.length}}</td>
-            <td>{{project.features.length}}</td>
-          </tr>
-        </table>
+         <ProjectList 
+          :projects="projects"
+          :isMyProfilePage="true" />
       </section>
     </section>
     <section class="myprofile-tasks">
@@ -36,6 +18,7 @@
 
 <script>
 
+import ProjectList from '../components/project/ProjectList.vue';
 import ProfileCard from '../components/user/ProfileCard.vue';
 import axiosUser from '../services/user-axios';
 
@@ -44,7 +27,8 @@ export default {
 
   },
   components: {
-    ProfileCard
+    ProfileCard,
+    ProjectList
   },
   data() {
     return {
@@ -85,7 +69,7 @@ export default {
 
 .myprofile-info {
   width: 50%;
-  background: rgb(204, 204, 204);
+  background: rgb(189, 179, 169);
 }
 
 .myprofile-profile {
@@ -127,6 +111,6 @@ export default {
 /* Second container */
 .myprofile-tasks {
   width: 50%;
-  background: red;
+  background: rgb(172, 172, 172);
 }
 </style>

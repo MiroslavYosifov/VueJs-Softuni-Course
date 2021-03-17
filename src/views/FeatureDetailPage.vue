@@ -42,54 +42,16 @@
           :issues="feature.issues"/>
       </div>
     </div>
-    <div class="feature-block">
-      <header>
-        <span><i class="fas fa-lightbulb"></i></span>
-        <h2>Suggestions</h2>
-      </header>
-      <div class="feature-suggestions" v-for="suggestion of feature.suggestions" :key="suggestion._id">
-        <SuggestionCard
-          :suggestionId="suggestion._id"
-          :name="suggestion.name"
-          :date="suggestion.date"
-          :description="suggestion.description"
-          :status="suggestion.status"
-          :creator="suggestion.creator"
-        />
-        <SuggestionNavigation
-          :suggestionId="suggestion._id"
-          :projectCreatorId="suggestion.project.creator"
-          :featureCreatorId="suggestion.feature.creator"
-          :status="suggestion.status"
-          @on-suggestion-delete="onElementDelete"
-          @on-suggestion-update-status="onElementUpdateStatus"
-        />
-      </div>
-    </div>
-    <div class="feature-block">
-      <header>
-        <span><i class="fas fa-exclamation-circle"></i></span>
-        <h2>Issues</h2>
-      </header>
-      <div class="feature-issues" v-for="issue of feature.issues" :key="issue._id">
-        <IssueCard
-          :issueId="issue._id"
-          :name="issue.name"
-          :date="issue.date"
-          :description="issue.description"
-          :status="issue.status"
-          :creator="issue.creator"
-        />
-        <IssueNavigation
-          :issueId="issue._id"
-          :projectCreatorId="issue.project.creator"
-          :featureCreatorId="issue.feature.creator"
-          :status="issue.status"
-          @on-issue-delete="onElementDelete"
-          @on-issue-update-status="onElementUpdateStatus"
-        />
-      </div>
-    </div>
+    
+    <template v-if="getSuggestions">
+      <SuggestionList 
+        :suggestions="getSuggestions"/>
+    </template>
+
+    <template v-if="getIssues">
+      <IssuesList 
+        :issues="getIssues"/>
+    </template>
   </div>
 </div>
 </template>
@@ -101,13 +63,11 @@ import SuccessModal from '../components/UI/SuccessModal.vue';
 import FeatureCard from '../components/feature/FeatureCard.vue';
 import FeatureNavigation from '../components/feature/FeatureNavigation.vue';
 
-import SuggestionCard from '../components/suggestion/SuggestionCard.vue';
 import SuggestionForm from '../components/suggestion/SuggestionForm.vue';
-import SuggestionNavigation from '../components/suggestion/SuggestionNavigation.vue';
+import SuggestionList from '../components/suggestion/SuggestionList.vue';
 
-import IssueCard from '../components/issue/IssueCard.vue';
 import IssueForm from '../components/issue/IssueForm.vue';
-import IssueNavigation from '../components/issue/IssueNavigation.vue';
+import IssuesList from '../components/issue/IssueList.vue';
 
 import featureAxios from '../services/feature-axios';
 
@@ -125,12 +85,10 @@ export default {
     SuccessModal,
     FeatureCard,
     FeatureNavigation,
-    IssueCard,
     IssueForm,
-    IssueNavigation,
-    SuggestionCard,
+    IssuesList,
     SuggestionForm,
-    SuggestionNavigation,
+    SuggestionList,
   },
   computed: {
     getIssues() {

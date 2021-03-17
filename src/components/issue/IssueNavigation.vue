@@ -73,8 +73,9 @@ export default {
     methods: {
         async deleteIssue() {
             try {
+                console.log(this.issueId);
                 const resDeletedIssue = await axiosIssue.deleteIssue(this.issueId);
-                const emitInfo = { ...resDeletedIssue.data, type: "issue" };
+                const emitInfo = { ...resDeletedIssue.data, type: "deleteIssue" };
                 this.$emit('on-issue-delete', emitInfo);
             } catch (error) {
                 console.log(error);
@@ -87,7 +88,7 @@ export default {
             }
             try {
                 const resUpdatedIssue = await axiosIssue.changeIssueStatus(this.issueId, data);
-                const emitInfo = { ...resUpdatedIssue.data, type: 'issue' };
+                const emitInfo = { ...resUpdatedIssue.data, type: 'updateIssueStatus' };
                 this.$emit('on-issue-update-status', emitInfo);
             } catch (error) {
                 console.log(error);

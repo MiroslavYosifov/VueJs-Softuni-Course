@@ -4,8 +4,7 @@
           <th>ID</th>
           <th>Project Name</th>
           <th>Created On</th>
-          <th>Last Updated</th>
-          <th>Creator</th>
+          <th v-if="!isMyProfilePage">Creator</th>
           <th>Members</th>
           <th>Features</th>
         </tr>
@@ -16,8 +15,7 @@
           <td>{{project._id}}</td>
           <td>{{project.name}}</td>
           <td>{{project.date}}</td>
-          <td>{{project.date}}</td>
-          <td>{{project.creator.name}}</td>
+          <td v-if="!isMyProfilePage">{{project.creator.name}}</td>
           <td>{{project.members.length}}</td>
           <td>{{project.features.length}}</td>
         </tr>
@@ -30,6 +28,10 @@ export default {
     projects: {
         type: Array,
         required: true,
+    },
+    isMyProfilePage: {
+        type: Boolean,
+        require: false
     }
   },
   data() {

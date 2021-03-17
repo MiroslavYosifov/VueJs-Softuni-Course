@@ -72,7 +72,7 @@ export default {
         async deleteSuggestion() {
             try {
                 const resDeletedSuggestion = await axiosSuggestion.deleteSuggestion(this.suggestionId);
-                const emitInfo = { ...resDeletedSuggestion.data, type: 'suggestion' };
+                const emitInfo = { ...resDeletedSuggestion.data, type: 'deleteSuggestion' };
                 this.$emit('on-suggestion-delete', emitInfo);
             } catch (error) {
                 console.log(error);
@@ -85,7 +85,7 @@ export default {
             }
             try {
                 const resUpdatedSuggestion = await axiosSuggestion.changeSuggestionStatus(this.suggestionId, data);
-                const emitInfo = { ...resUpdatedSuggestion.data, type: 'suggestion' };
+                const emitInfo = { ...resUpdatedSuggestion.data, type: 'updateSuggestionStatus' };
                 this.$emit('on-suggestion-update-status', emitInfo);
             } catch (error) {
                 console.log(error);
