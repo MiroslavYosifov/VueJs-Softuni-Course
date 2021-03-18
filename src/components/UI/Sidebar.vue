@@ -19,6 +19,7 @@
                             :title="note.title"
                             :description="note.description"
                             :date="note.date"
+                            @on-delete-note="onDeleteNote"
                         />
                     </div>
                 </div>
@@ -37,56 +38,60 @@ import NoterCard from '../note/NoteCard.vue';
 import noteAxios from '../../services/note-axios'
 
 export default {
-  props: {
+    props: {
 
-  },
-  components: {
-    // vuescroll,
-    NoteForm,
-    NoterCard
-  },
-  data () {
-      return {
-        notes: [],
-        // ops: {
-        //     vuescroll: {
-        //         mode: 'native',
-        //     },
-        //     scrollPanel: {
-        //         initialScrollY: false,
-        //         initialScrollX: false,
-        //         scrollingX: true,
-        //         scrollingY: true,
-        //         speed: 300,
-        //         easing: undefined,
-        //         verticalNativeBarPos: 'right'
-        //     },
-        //     rail: {},
-        //     bar: {}
-        // }
+    },
+    components: {
+      // vuescroll,
+      NoteForm,
+      NoterCard
+    },
+    data () {
+        return {
+          notes: [],
+          // ops: {
+          //     vuescroll: {
+          //         mode: 'native',
+          //     },
+          //     scrollPanel: {
+          //         initialScrollY: false,
+          //         initialScrollX: false,
+          //         scrollingX: true,
+          //         scrollingY: true,
+          //         speed: 300,
+          //         easing: undefined,
+          //         verticalNativeBarPos: 'right'
+          //     },
+          //     rail: {},
+          //     bar: {}
+          // }
+        }
+    },
+    computed: {
+      getNotes() {
+          return this.notes;
       }
-  },
-  computed: {
-    getNotes() {
-        return this.notes;
-    }
-  },
-  methods: {
-    hideSidebar() {
-      this.$store.dispatch('showHideSidebar');
     },
-    onNoteSubmit(note) {
-      this.notes.push(note);
+    methods: {
+      hideSidebar() {
+        this.$store.dispatch('showHideSidebar');
+      },
+      onNoteSubmit(note) {
+        this.notes.push(note);
+      },
+      onDeleteNote(resNote) {
+          console.log(resNote);
+          this.notes = this.notes.filter(n => n._id !== resNote.noteId);
+      }
     },
-  },
-  async created() {
+    async created() {
       try { 
           const resNote = await noteAxios.listNotes();
           this.notes = resNote.data;
       } catch (error) {
           console.log(error);
       }
-  }
+    }
 };
 </script>
 
