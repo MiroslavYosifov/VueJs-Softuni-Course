@@ -14,7 +14,8 @@
        <h1>List Projects</h1>
     </header>
     <ProjectTable 
-      :projects="getProjects" />
+      :projects="getProjects" 
+      @on-sort-tabel="onSortTable"/>
   </div>
 </template>
 <script>
@@ -53,25 +54,35 @@ export default {
       }
     },
     methods: {
-        onProjectFormSubmit(createdProject) {
-            this.projects.unshift(createdProject);
-            this.successMessage = `Your ${createdProject.name} was added successfully to your pojects list!`;
-        },
-        async getListedProjects() {
-          
-          if(this.$route.path === "/projects") {
-            this.isSelectedDetailProjectPage = false;
-          } else {
-            this.isSelectedDetailProjectPage = true;
-          }
+      onProjectFormSubmit(createdProject) {
+          this.projects.unshift(createdProject);
+          this.successMessage = `Your ${createdProject.name} was added successfully to your pojects list!`;
+      },
+      onSortTable(criterion) {
+        if(!criterion) return;
 
-          try {
-            const projects = await axiosProject.listProjects();
-            this.projects = projects.data;
-          } catch (error) {
-            console.log(error);
-          }
+        this.projects.sort((a, b) => {
+            if (a[criterion] > b[criterion]) return -1
+            return a[criterion] < b[criterion] ? 1 : 0
+          });
+      },
+      async getListedProjects() {
+        
+        if(this.$route.path === "/projects") {
+          this.isSelectedDetailProjectPage = false;
+        } 
+        else {
+          this.isSelectedDetailProjectPage = true; 
         }
+
+        try {
+          const projects = await axiosProject.listProjects();
+          this.projects = projects.data;
+        } 
+        catch (error) {
+          console.log(error);
+        }
+      }
     },
     async created() {
       this.getListedProjects()

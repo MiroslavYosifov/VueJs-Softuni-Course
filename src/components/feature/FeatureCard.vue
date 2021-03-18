@@ -3,7 +3,7 @@
       <section>
         <h4>Feature: {{name}}</h4>
         <p>Status: {{status}}</p>
-        <p>Created on: 01.11.2021</p>
+        <p>Created on: {{dateFormatted(date)}}</p>
         <p>Creator: {{creator.name}}</p>
         <p>Suggestions: {{suggestions.length}}</p>
         <p>Issues: {{issues.length}}</p>
@@ -13,7 +13,10 @@
 </template>
 <script>
 
+import dateOptions from '../../mixins/dateOptions';
+
 export default {
+  mixins: [dateOptions],
   props: {
     featureId: {
       type: String,

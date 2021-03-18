@@ -45,7 +45,7 @@ export default {
                 if(!this.isHidden) {
                     this.showHideSuccessModal();
                 }
-            }, 2000)
+            }, 3000)
         }
     }
 };
@@ -61,6 +61,7 @@ export default {
     border: 1px solid gray;
     border-radius: 0.2em;
     text-align: center;
+    margin: 1em 0;
 }
 
 .hidden {

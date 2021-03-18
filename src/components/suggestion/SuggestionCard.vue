@@ -2,7 +2,7 @@
   <div :id="suggestionId">
     <section>
       <h4>Title: {{name}}</h4>
-      <p>Created On: {{date}}</p>
+      <p>Created On: {{dateFormatted(date)}}</p>
       <p>Status: {{status}}</p>
       <p>Description: {{description}}</p>
       <p>Creator: {{creator.name}}</p>
@@ -14,7 +14,11 @@
 </template>
 
 <script>
+
+import dateOptions from '../../mixins/dateOptions';
+
 export default {
+  mixins: [dateOptions],
   props: {
     suggestionId: {
       type: String,
