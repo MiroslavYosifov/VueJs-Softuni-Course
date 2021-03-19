@@ -7,6 +7,10 @@
         </nav>
         <div>
             <NoteForm @on-note-submit="onNoteSubmit"/>
+            <template v-if="successMessage">
+                <SuccessModal 
+                    :successMessage="successMessage"/>
+            </template>
             <div class="notes-container">
                 <header>
                     <h3>Notes</h3>
@@ -32,6 +36,8 @@
 
 // import vuescroll from 'vuescroll';
 
+import SuccessModal from '../UI/SuccessModal.vue';
+
 import NoteForm from '../note/NoteForm.vue';
 import NoterCard from '../note/NoteCard.vue';
 
@@ -43,28 +49,14 @@ export default {
     },
     components: {
       // vuescroll,
+      SuccessModal,
       NoteForm,
       NoterCard
     },
     data () {
         return {
           notes: [],
-          // ops: {
-          //     vuescroll: {
-          //         mode: 'native',
-          //     },
-          //     scrollPanel: {
-          //         initialScrollY: false,
-          //         initialScrollX: false,
-          //         scrollingX: true,
-          //         scrollingY: true,
-          //         speed: 300,
-          //         easing: undefined,
-          //         verticalNativeBarPos: 'right'
-          //     },
-          //     rail: {},
-          //     bar: {}
-          // }
+          successMessage: ''
         }
     },
     computed: {
@@ -76,11 +68,12 @@ export default {
       hideSidebar() {
         this.$store.dispatch('showHideSidebar');
       },
-      onNoteSubmit(note) {
-        this.notes.push(note);
+      onNoteSubmit(resNote) {
+        this.successMessage = resNote.successMessage;
+        this.notes.push(resNote.note);
       },
       onDeleteNote(resNote) {
-          console.log(resNote);
+          this.successMessage = resNote.successMessage;
           this.notes = this.notes.filter(n => n._id !== resNote.noteId);
       }
     },

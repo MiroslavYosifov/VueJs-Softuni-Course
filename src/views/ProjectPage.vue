@@ -2,25 +2,30 @@
   <div>
     
     <template v-if="authUserInfo.isAuthenticated">
-        <ProjectForm @on-project-submit="onProjectFormSubmit"/>
+      <ProjectForm @on-project-submit="onProjectFormSubmit"/>
     </template>
 
     <template v-if="successMessage">
-        <SuccessModal 
-          :successMessage="successMessage"/>
+      <SuccessModal 
+        :successMessage="successMessage"/>
     </template>
-
+    <Search 
+      :dataForFiltering="projects"
+      :keyForFiltering="'name'"
+      @on-search="onSearch"
+    />
     <header>
        <h1>List Projects</h1>
     </header>
     <ProjectTable 
-      :projects="getProjects" 
+      :projects="getFilteredProjects" 
       @on-sort-tabel="onSortTable"/>
   </div>
 </template>
 <script>
 
 import SuccessModal from '../components/UI/SuccessModal.vue'
+import Search from '../components/UI/Search.vue';
 
 import ProjectForm from '../components/project/ProjectForm.vue';
 import ProjectTable from '../components/project/ProjectTable.vue';
@@ -33,12 +38,14 @@ export default {
     },
     components: {
       SuccessModal,
+      Search,
       ProjectForm,
       ProjectTable
     },
     data() {
       return {
         projects: [],
+        filteredProjects: [],
         successMessage: ''
       }
     },
@@ -46,22 +53,25 @@ export default {
       authUserInfo() {
         return this.$store.getters.authUserInfo;
       },
-      getProjects() {
-        return this.projects;
+      getFilteredProjects() {
+        return this.filteredProjects;
       },
       checkIfSelectedDetailProjectPage() {
         return this.isSelectedDetailProjectPage
       }
     },
     methods: {
-      onProjectFormSubmit(createdProject) {
-          this.projects.unshift(createdProject);
-          this.successMessage = `Your ${createdProject.name} was added successfully to your pojects list!`;
+      onProjectFormSubmit(resProject) {
+          this.projects.unshift(resProject.project);
+          this.successMessage = resProject.successMessage;
+      },
+      onSearch(filteredProjects) {
+        this.filteredProjects = filteredProjects;
       },
       onSortTable(criterion) {
         if(!criterion) return;
 
-        this.projects.sort((a, b) => {
+        this.filteredProjects.sort((a, b) => {
             if (a[criterion] > b[criterion]) return -1
             return a[criterion] < b[criterion] ? 1 : 0
           });
@@ -78,6 +88,7 @@ export default {
         try {
           const projects = await axiosProject.listProjects();
           this.projects = projects.data;
+          this.filteredProjects = JSON.parse(JSON.stringify(this.projects));
         } 
         catch (error) {
           console.log(error);

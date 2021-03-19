@@ -3,7 +3,8 @@
          :id="projectId">
             <h5 v-if="name" class="project-name">Project name: {{name}}</h5>
             <p class="project-date">Created On: {{dateFormatted(date)}}</p>
-            <p class="project-creator">Creator: {{creator}}</p>
+            <router-link :to="`/my-profile/${creator._id}`">Creator: {{creator.name}}</router-link>
+            <p class="project-creator"></p>
             <p class="project-members">Members: {{members}}</p>
             <p class="project-faetures">Features: {{features}}</p>
             <p class="project-description" v-if="!isListPage">Description: {{description}}</p>
@@ -34,7 +35,7 @@ export default {
           required: true,
       },
       creator: {
-          type: String,
+          type: Object,
           required: true,
       },
       members: {
@@ -55,7 +56,7 @@ export default {
         }
     },
     computed: {
-      
+
     },
     methods: {
       

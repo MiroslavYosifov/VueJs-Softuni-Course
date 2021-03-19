@@ -5,7 +5,9 @@
       <p>Created On: {{dateFormatted(date)}}</p>
       <p>Status: {{status}}</p>
       <p>Description: {{description}}</p>
-      <p>Creator: {{creator.name}}</p>
+      <template v-if="creator._id">
+          <router-link :to="`/my-profile/${creator._id}`">Creator: {{creator.name}}</router-link>
+      </template>
       <p v-if="project">Project: {{project.name}}</p>
       <p v-if="feature">Feature: {{feature.name}}</p>
     </section>

@@ -4,7 +4,9 @@
         <h4>Feature: {{name}}</h4>
         <p>Status: {{status}}</p>
         <p>Created on: {{dateFormatted(date)}}</p>
-        <p>Creator: {{creator.name}}</p>
+        <template v-if="creator._id">
+          <router-link :to="`/my-profile/${creator._id}`">Creator: {{creator.name}}</router-link>
+        </template>
         <p>Suggestions: {{suggestions.length}}</p>
         <p>Issues: {{issues.length}}</p>
         <p v-if="description">Description: {{description}}</p>

@@ -55,7 +55,7 @@ export default {
         async deleteProject() {
             try {
                 await axiosProject.deleteProject(this.projectId);
-                this.$router.back();
+                this.$router.replace('/projects');
             } catch (error) {
                 console.log(error);
             }
@@ -64,7 +64,7 @@ export default {
             this.$store.dispatch('showHideFeatureForm');
         },
         backToPreviusPage() {
-            this.$router.back();
+            this.$router.replace('/projects');
         }
     }
 };

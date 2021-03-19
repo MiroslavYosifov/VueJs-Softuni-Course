@@ -21,6 +21,8 @@
         :featureStatus="feature.status"
         :featureCreatorId="feature.creator._id" 
         :projectCreatorId="feature.project.creator"
+        :projectId="feature.project._id"
+        @on-change-feature-status="onChangeFeatureStatus"
         />
   </template>
 
@@ -110,13 +112,17 @@ export default {
     }
   },
   methods: {
-    onIssueFormSubmit(issue) {
-      this.feature.issues.unshift(issue);
-      this.successMessage = `Your Issue ${issue.name} was added successfully to your issues list!`;
+    onIssueFormSubmit(resIssue) {
+      this.feature.issues.unshift(resIssue.issue);
+      this.successMessage = resIssue.successMessage;
     },
-    onSuggestionFormSubmit(suggestion) {
-      this.feature.suggestions.unshift(suggestion);
-      this.successMessage = `Your Suggestion ${suggestion.name} was added successfully to your suggestions list!`;
+    onSuggestionFormSubmit(resSuggestion) {
+      this.feature.suggestions.unshift(resSuggestion.suggestion);
+      this.successMessage = resSuggestion.successMessage;
+    },
+    onChangeFeatureStatus(resFeature) {
+      this.feature.status = resFeature.feature.status;
+      this.successMessage = resFeature.successMessage;
     }
   },
   async mounted() {

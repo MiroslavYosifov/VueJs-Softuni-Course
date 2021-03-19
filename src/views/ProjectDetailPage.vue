@@ -7,6 +7,7 @@
       @on-feature-submit="onFeatureFormSubmit"
     />
   </div>
+  
   <template v-if="successMessage">
       <SuccessModal 
           :successMessage="successMessage"/>
@@ -32,7 +33,7 @@
              :projectId="project._id"
              :date="project.date"
              :description="project.description"
-             :creator="project.creator.name"
+             :creator="project.creator"
              :members="project.members.length"
              :features="project.features.length"
              :isListPage="false"/>
@@ -110,9 +111,9 @@ export default {
         console.log(error);
       }
     },
-    onFeatureFormSubmit(feature) {
-      this.project.features.unshift(feature);
-      this.successMessage = `Your ${feature.name} was added successfully to your feature list!`;
+    onFeatureFormSubmit(resFeature) {
+      this.project.features.unshift(resFeature.feature);
+      this.successMessage = resFeature.successMessage;
     }
   },
   created() {

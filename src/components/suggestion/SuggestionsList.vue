@@ -1,5 +1,9 @@
 <template>
     <div class="suggestions-list-block">
+      <template v-if="successMessage">
+        <SuccessModal 
+          :successMessage="successMessage"/>
+      </template>
       <header>
         <span><i class="fas fa-lightbulb"></i></span>
         <h2>Suggestions</h2>
@@ -27,6 +31,8 @@
 
 <script>
 
+import SuccessModal from '../UI/SuccessModal.vue';
+
 import SuggestionCard from './SuggestionCard.vue';
 import SuggestionNavigation from './SuggestionNavigation.vue';
 
@@ -39,10 +45,12 @@ export default {
   },
   data() {
     return {
-        value: {}
+        value: {},
+        successMessage: ''
     }
   },
   components: {
+    SuccessModal,
     SuggestionCard,
     SuggestionNavigation
   },
@@ -67,10 +75,12 @@ export default {
   methods: {
     onSuggestionDelete(value) {
         this.value = value;
+        this.successMessage = value.successMessage;
         this.getSuggestions;
     },
     onSuggestionUpdateStatus(value) {
         this.value = value;
+        this.successMessage = value.successMessage;
         this.getSuggestions;
     }
   },

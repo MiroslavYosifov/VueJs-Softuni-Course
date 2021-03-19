@@ -64,7 +64,6 @@ export default {
 
         try {
             const resNote = await noteAxios.createNote(this.formData);
-            console.log(resNote);
             this.$emit('on-note-submit', resNote.data);
         } catch (error) {
             console.log(error);

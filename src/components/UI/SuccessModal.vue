@@ -1,6 +1,6 @@
 <template>
     <section :class="{ success: true, hidden: isShowedSuccessModal }">
-        <h3>{{isSuccessMessage}}</h3>
+        <h4>{{isSuccessMessage}}</h4>
     </section>
 </template>
 

@@ -12,7 +12,7 @@
                 <router-link to="/projects">Projects</router-link>
               </li>
               <li v-if="auth">
-                <router-link to="/my-profile">Hello {{authUserInfo.username}}!</router-link>
+                <router-link :to="`/my-profile/${authUserInfo.userId}`">Hello {{authUserInfo.username}}!</router-link>
               </li>
               <template v-if="!auth">
                 <li>

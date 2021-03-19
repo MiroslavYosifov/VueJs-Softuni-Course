@@ -66,21 +66,28 @@ export default {
 
   },
   methods: {
+    async getUserInfo() {
+      const userId = this.$route.params.userId;
 
+      try {
+          const resUserInfo = await axiosUser.getUserInfo(userId);
+
+          this.projects = resUserInfo.data.ownProjects;
+          this.issues = resUserInfo.data.issues;
+          this.suggestions = resUserInfo.data.suggestions;
+          this.features = resUserInfo.data.features;
+
+      } catch (error) {
+          console.log(error);
+      }
+    }
   },
-  async created() {
-    const userId = this.$store.getters.getUserId;
-
-    try {
-        const resUserInfo = await axiosUser.getUserInfo(userId);
-
-        this.projects = resUserInfo.data.ownProjects;
-        this.issues = resUserInfo.data.issues;
-        this.suggestions = resUserInfo.data.suggestions;
-        this.features = resUserInfo.data.features;
-
-    } catch (error) {
-        console.log(error);
+  created() {
+    this.getUserInfo();
+  },
+  watch: {
+    $route() {
+      this.getUserInfo();
     }
   }
 };

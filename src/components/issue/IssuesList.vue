@@ -1,5 +1,9 @@
 <template>
     <div class="issues-list-block">
+      <template v-if="successMessage">
+        <SuccessModal 
+          :successMessage="successMessage"/>
+      </template>
       <header>
         <span><i class="fas fa-exclamation-circle"></i></span>
         <h2>Issues</h2>
@@ -27,6 +31,8 @@
 
 <script>
 
+import SuccessModal from '../UI/SuccessModal.vue';
+
 import IssueCard from './IssueCard.vue';
 import IssueNavigation from './IssueNavigation.vue';
 
@@ -39,10 +45,12 @@ export default {
   },
   data() {
     return {
-        value: {}
+      value: {},
+      successMessage: ''
     }
   },
   components: {
+    SuccessModal,
     IssueCard,
     IssueNavigation
   },
@@ -67,10 +75,12 @@ export default {
   methods: {
     onIssueDelete(value) {
         this.value = value;
+        this.successMessage = value.successMessage;
         this.getIssues;
     },
     onIssueUpdateStatus(value) {
         this.value = value;
+        this.successMessage = value.successMessage;
         this.getIssues;
     }
   },

@@ -26,7 +26,7 @@ const routes = [
     props: true
   },
   { 
-    path: '/my-profile', 
+    path: '/my-profile/:userId', 
     component: MyProfile,
     beforeEnter(to, from, next) {
       console.log('Pytiq', store.state);

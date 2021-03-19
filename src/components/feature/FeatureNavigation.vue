@@ -97,6 +97,10 @@ export default {
             type: String,
             required: true,
         },
+        projectId: {
+            type: String,
+            required: true,
+        },
         featureStatus: {
             type: String,
             required: true,
@@ -124,7 +128,7 @@ export default {
         async deleteFeature() {
             try {
                 await axiosFeature.deleteFeature(this.featureId);
-                this.$router.back();
+                this.$router.push(`/projects/${this.projectId}`);
             } catch (error) {
                 console.log(error);
             }
@@ -135,8 +139,7 @@ export default {
 
             try {
                 const resUpdatedFeature = await axiosFeature.changeFeatureStatus(this.featureId, data);
-                console.log(resUpdatedFeature);
-                this.$router.back();
+                this.$emit('on-change-feature-status', resUpdatedFeature.data);
             } catch (error) {
                 console.log(error);
             }
@@ -148,7 +151,7 @@ export default {
             this.$store.dispatch('showHideSuggestionForm');
         },
         backToPreviusPage() {
-            this.$router.back();
+            this.$router.push(`/projects/${this.projectId}`);
         }
     }
 };
