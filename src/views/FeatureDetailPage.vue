@@ -144,7 +144,7 @@ export default {
   position: relative;
   width: 100%;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 0 2em 0;
   background: rgb(250, 246, 238);
 }
 
