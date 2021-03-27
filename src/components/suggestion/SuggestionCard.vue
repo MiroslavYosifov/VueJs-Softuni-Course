@@ -3,7 +3,8 @@
     <section>
       <h4>Title: {{name}}</h4>
       <p>Created On: {{dateFormatted(date)}}</p>
-      <p>Status: {{status}}</p>
+      <p v-if="status === 'accept'"><span>Status:</span><span class="accept-status"> {{status}}</span></p>
+      <p v-if="status === 'done'"><span>Status:</span><span class="done-status" > {{status}}</span></p>
       <p>Description: {{description}}</p>
       <template v-if="creator._id">
           <router-link :to="`/my-profile/${creator._id}`">Creator: {{creator.name}}</router-link>
@@ -64,6 +65,28 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.accept-status {
+  text-align: center;
+  display: inline-block;
+  border: 1px solid rgb(66, 94, 22);
+  color: rgb(66, 94, 22);
+  font-weight: bold;
+  border-radius: 0.2em;
+  width: 5em;
+  padding: 0.2em;
+  margin-left: 0.2em;
+}
 
+.done-status {
+  text-align: center;
+  display: inline-block;
+  border: 1px solid rgb(66, 94, 22);
+  color: rgb(66, 94, 22);
+  font-weight: bold;
+  border-radius: 0.2em;
+  width: 5em;
+  padding: 0.2em;
+  margin-left: 0.2em;
+}
 </style>

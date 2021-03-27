@@ -8,7 +8,8 @@
         <span><i class="fas fa-exclamation-circle"></i></span>
         <h2>Issues</h2>
       </header>
-      <div class="issues-list" v-for="issue of getIssues" :key="issue._id">
+      <template  v-if="getIssues.length > 0">
+        <div class="issues-list" v-for="issue of getIssues" :key="issue._id">
         <IssueCard
           :issueId="issue._id"
           :name="issue.name"
@@ -26,6 +27,12 @@
           @on-issue-update-status="onIssueUpdateStatus"
         />
       </div>
+      </template>
+      <template  v-else>
+        <div class="no-issues">
+           <h3>No Issues</h3>
+        </div>
+      </template>
     </div>
 </template>
 
@@ -115,6 +122,10 @@ export default {
   color: rgb(109, 125, 145);
   margin-bottom: 0.4em;
   border-radius: 0.1em;
+}
+
+.no-issues {
+  text-align: center;
 }
 
 </style>

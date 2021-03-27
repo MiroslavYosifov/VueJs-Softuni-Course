@@ -8,7 +8,8 @@
         <span><i class="fas fa-lightbulb"></i></span>
         <h2>Suggestions</h2>
       </header>
-      <div class="suggestions-list" v-for="suggestion of getSuggestions" :key="suggestion._id">
+      <template  v-if="getSuggestions.length > 0">
+        <div class="suggestions-list" v-for="suggestion of getSuggestions" :key="suggestion._id">
         <SuggestionCard
           :suggestionId="suggestion._id"
           :name="suggestion.name"
@@ -26,6 +27,12 @@
           @on-suggestion-update-status="onSuggestionUpdateStatus"
         />
       </div>
+      </template>
+      <template  v-else>
+        <div class="no-suggestion">
+           <h3>No Issues</h3>
+        </div>
+      </template>
     </div>
 </template>
 
@@ -117,5 +124,9 @@ export default {
   color: rgb(109, 125, 145);
   margin-bottom: 0.4em;
   border-radius: 0.1em;
+}
+
+.no-suggestion {
+  text-align: center;
 }
 </style>

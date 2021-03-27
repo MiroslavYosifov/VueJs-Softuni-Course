@@ -4,6 +4,7 @@
             <header>
               <h4>Add new project</h4>
             </header>
+            <p class="error" v-if="!isFormValid">Fill all fields correct</p>
             <form @submit.prevent="onSubmit">
                 <div class="input">
                   <label for="name">Name</label>
@@ -42,7 +43,8 @@ export default {
         formData: {
           name: "",
           description: "",
-        }
+        },
+        isFormValid: true
       }
     },
     validations: {
@@ -68,8 +70,14 @@ export default {
           authToken: this.$store.getters.getAuthToken 
         }
         try {
-            const resCreateProject = await axiosProject.createProject(formData);
-            this.$emit('on-project-submit', resCreateProject.data);
+          if(this.$v.formData.$anyError) {
+            this.isFormValid = false;
+            return;
+          }
+
+          this.isFormValid = true;
+          const resCreateProject = await axiosProject.createProject(formData);
+          this.$emit('on-project-submit', resCreateProject.data);
         } catch (error) {
             console.log(error);
         }

@@ -2,6 +2,7 @@
   <div id="signin">
     <div class="signin-form">
       <p class="error" v-if="authErrors">{{authErrors}}</p>
+       <p class="error" v-if="!isFormValid">Fill all fields correct</p>
       <form @submit.prevent="onSubmit">
         <div class="input">
           <label for="name">Name</label>
@@ -38,10 +39,11 @@
   export default {
     data () {
     return {
-      formData: {
+        formData: {
           name: "",
           password: ""
-        }
+        },
+        isFormValid: true
     }
     },
     validations: {
@@ -64,6 +66,13 @@
     },
     methods: {
       async onSubmit () {
+
+        if(this.$v.formData.$anyError) {
+          this.isFormValid = false;
+          return;
+        }
+
+        this.isFormValid = true;
         this.$store.dispatch('signin', { ...this.formData });
       }
     },

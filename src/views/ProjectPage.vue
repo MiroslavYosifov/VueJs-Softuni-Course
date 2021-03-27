@@ -20,6 +20,11 @@
     <ProjectTable 
       :projects="getFilteredProjects" 
       @on-sort-tabel="onSortTable"/>
+
+    <div class="btn-load-more-container">
+      <button @click="onProjectLoadMore" class="btn-load-more">Load more</button>
+    </div>
+    
   </div>
 </template>
 <script>
@@ -46,7 +51,8 @@ export default {
       return {
         projects: [],
         filteredProjects: [],
-        successMessage: ''
+        successMessage: '',
+        countLoadMoreButtonClicks: 1,
       }
     },
     computed: {
@@ -55,14 +61,12 @@ export default {
       },
       getFilteredProjects() {
         return this.filteredProjects;
-      },
-      checkIfSelectedDetailProjectPage() {
-        return this.isSelectedDetailProjectPage
       }
     },
     methods: {
       onProjectFormSubmit(resProject) {
           this.projects.unshift(resProject.project);
+          this.filteredProjects.unshift(resProject.project);
           this.successMessage = resProject.successMessage;
       },
       onSearch(filteredProjects) {
@@ -77,30 +81,31 @@ export default {
           });
       },
       async getListedProjects() {
-        
-        if(this.$route.path === "/projects") {
-          this.isSelectedDetailProjectPage = false;
-        } 
-        else {
-          this.isSelectedDetailProjectPage = true; 
-        }
-
+      
         try {
-          const projects = await axiosProject.listProjects();
+          const queryParams = `?countClicks=${this.countLoadMoreButtonClicks}`;
+          const projects = await axiosProject.listProjects(queryParams);
           this.projects = projects.data;
           this.filteredProjects = JSON.parse(JSON.stringify(this.projects));
         } 
         catch (error) {
           console.log(error);
         }
-      }
+      },
+      onProjectLoadMore() {
+         this.countLoadMoreButtonClicks++;
+        const queryParams = `?countClicks=${this.countLoadMoreButtonClicks}`;
+        this.getListedProjects(queryParams);
+      },
     },
     async created() {
-      this.getListedProjects()
+      const queryParams = `?countClicks=${this.countLoadMoreButtonClicks}`;
+      this.getListedProjects(queryParams)
     },
     watch: {
       $route() {
-        this.getListedProjects()
+        const queryParams = `?countClicks=${this.countLoadMoreButtonClicks}`;
+        this.getListedProjects(queryParams)
       }
     }
 };
@@ -131,5 +136,23 @@ export default {
 
 .project-list-wrapper tr th {
   background:rgb(228, 223, 215);
+}
+
+.btn-load-more-container {
+  width: 100%;
+}
+
+.btn-load-more {
+  display: block;
+  font-size: 24px;
+  width: 20em;
+  padding: 0.2em;
+  margin: 2em auto;
+  cursor: pointer;
+  background: white;
+  color: gray;
+  border-radius: 0.3em;
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px 4px 1px rgba(153, 153, 153, 0.678);
 }
 </style>

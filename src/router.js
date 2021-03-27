@@ -5,7 +5,6 @@ import { store } from './store/store';
 Vue.use(VueRouter);
 
 import About from './views/About.vue';
-import Contact from './views/Contact.vue';
 import ProjectPage from './views/ProjectPage.vue';
 import ProjectDetailPage from './views/ProjectDetailPage.vue';
 import FeatureDetailPage from './views/FeatureDetailPage.vue';
@@ -17,7 +16,6 @@ import NotFound from './views/NotFound.vue';
 const routes = [
   { path: '/', component: About },
   { path: '/about', component: About, children: [] },
-  { path: '/contact', component: Contact },
   { path: '/projects', component: ProjectPage },
   { path: '/projects/:projectId', component: ProjectDetailPage },
   { 

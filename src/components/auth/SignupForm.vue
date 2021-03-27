@@ -1,7 +1,8 @@
 <template>
   <div id="signup">
     <div class="signup-form">
-      <p v-if="authErrors">{{authErrors}}</p>
+      <p class="error" v-if="authErrors">{{authErrors}}</p>
+      <p class="error" v-if="!isFormValid">Fill all fields correct</p>
       <form @submit.prevent="onSubmit">
         <div class="input">
           <label for="name">Name</label>
@@ -47,10 +48,11 @@ export default {
   data () {
     return {
       formData: {
-          name: "",
-          password: "",
-          confirmPassword: ""
-        }
+        name: "",
+        password: "",
+        confirmPassword: ""
+      },
+      isFormValid: true
     }
   },
   validations: {
@@ -76,6 +78,13 @@ export default {
   },
   methods: {
     async onSubmit () {
+
+      if(this.$v.formData.$anyError) {
+        this.isFormValid = false;
+        return;
+      }
+
+      this.isFormValid = true;
       this.$store.dispatch('signup', { ...this.formData })
     }
   }
