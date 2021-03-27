@@ -3,8 +3,8 @@ import { store } from './store/store';
 
 function axiosSetups () {
 
-    axios.defaults.baseURL = 'http://localhost:3400/api';
-    // axios.defaults.baseURL = 'https://oss-projects-system.herokuapp.com/api';
+    // axios.defaults.baseURL = 'http://localhost:3400/api';
+    axios.defaults.baseURL = 'https://oss-projects-system.herokuapp.com/api';
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('authToken');
     // axios.defaults.headers.get['Accepts'] = "application/json";  
 
